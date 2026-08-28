@@ -9,10 +9,24 @@ service DealerService {
 
             action approveDealer() returns String;
 
-            action rejectDealer(reason: String(200))returns String;
+            action rejectDealer(reason: String(200)) returns String;
 
             action blockDealer(reason: String(200), remarks: String(500)) returns String;
         };
 
     entity DealerDocuments as projection on db.DealerDocuments;
+
+    entity Products as projection on db.Products;
+
+    entity PurchaseOrders as projection on db.PurchaseOrders
+        actions {
+
+            action submitPO() returns String;
+
+            action approvePO() returns String;
+
+            action rejectPO(reason: String(200)) returns String;
+        };
+
+    entity POLineItems as projection on db.POLineItems;
 }

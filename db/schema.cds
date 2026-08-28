@@ -61,3 +61,28 @@ entity DealerDocuments : cuid {
 
     dealer : Association to Dealer;
 }
+
+entity Products : cuid, managed {
+  productCode : String(30);
+  name        : String(100);
+  unitPrice   : Decimal(15,2); 
+}
+
+entity PurchaseOrders : cuid, managed {
+  poNumber        : String(30);
+  orderDate       : Date;
+  totalAmount     : Decimal(15,2) default 0;
+  taxAmount       : Decimal(15,2) default 0;
+  status          : String(20) default 'DRAFT'; 
+  rejectionReason : String(255);
+  dealer          : Association to Dealer;
+  items           : Composition of many POLineItems on items.purchaseOrder = $self;
+}
+
+entity POLineItems : cuid {
+  quantity      : Integer;
+  unitPrice     : Decimal(15,2);
+  lineTotal     : Decimal(15,2);
+  product       : Association to Products;
+  purchaseOrder : Association to PurchaseOrders;
+}
