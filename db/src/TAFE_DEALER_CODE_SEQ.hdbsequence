@@ -1,0 +1,6 @@
+start_with = 1;
+increment_by = 1;
+minvalue = 1;
+nomaxvalue = true;
+nominvalue = true;
+nocycle = true;

@@ -1,0 +1,122 @@
+### ============================================================
+
+### DEALER ONBOARDING - TEST HTTP
+
+### ============================================================
+
+### 1. Get all dealers
+
+GET http://localhost:4004/odata/v4/dealer/Dealers
+
+### ============================================================
+
+### 2. Create Dealer
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+  "dealerName": "DEF Motors",
+  "gstNumber": "29DEFAB1234D1Z5",
+  "panNumber": "DEFAB1234D",
+  "email": "def.motors@gmail.com",
+  "phone": "9876543212",
+  "address": "Bangalore"
+}
+
+### ============================================================
+
+### 3. Get Dealer by ID
+
+### Replace the ID with the ID returned from Create Dealer
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)
+
+### ============================================================
+
+### 4. Update Dealer
+
+### ============================================================
+
+PATCH http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)
+Content-Type: application/json
+
+{
+"address": "Bangalore, Karnataka"
+}
+
+### ============================================================
+
+### 5. Submit Dealer
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/submitDealer
+Content-Type: application/json
+
+{}
+
+### ============================================================
+
+### 6. Approve Dealer
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/approveDealer
+Content-Type: application/json
+
+{}
+
+### ============================================================
+
+### 7. Reject Dealer
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/rejectDealer
+Content-Type: application/json
+
+{
+"reason": "GST verification failed"
+}
+
+### ============================================================
+
+### 8. Block Dealer
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/blockDealer
+Content-Type: application/json
+
+{
+"reason": "Dealer compliance issue",
+"remarks": "Blocked for review"
+}
+
+### ============================================================
+
+### 9. Delete Dealer
+
+### Expected: 405 - deletion not allowed
+
+### ============================================================
+
+DELETE http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)
+
+
+### Submit Dealer
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)/submitDealer
+Content-Type: application/json
+
+{}
+
+
+### Verify Dealer Status After Submit
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)
