@@ -1,0 +1,11 @@
+ID,productCode,productName,category,active,createdAt,createdBy,modifiedAt,modifiedBy
+P001,TAFE-TR01,Tractor 45 HP,Agricultural Equipment,true,2025-10-05T08:30:00Z,product.admin@tafe.com,2026-01-05T10:15:00Z,product.manager@tafe.com
+P002,TAFE-TR02,Tractor 60 HP,Agricultural Equipment,true,2025-10-08T09:45:00Z,product.admin@tafe.com,2026-01-08T11:20:00Z,product.manager@tafe.com
+P003,TAFE-EX01,Mini Excavator 3T,Construction Equipment,true,2025-10-12T10:20:00Z,product.admin@tafe.com,2026-02-02T13:30:00Z,product.manager@tafe.com
+P004,TAFE-EX02,Hydraulic Excavator 8T,Construction Equipment,true,2025-10-15T07:50:00Z,product.manager@tafe.com,2026-01-18T09:40:00Z,product.admin@tafe.com
+P005,TAFE-CB01,Compact Backhoe Loader,Construction Equipment,true,2025-10-20T12:10:00Z,product.admin@tafe.com,2026-03-03T14:25:00Z,product.manager@tafe.com
+P006,TAFE-HR01,Harvester 50 HP,Harvesting Equipment,true,2025-11-01T08:15:00Z,product.admin@tafe.com,2026-01-12T15:05:00Z,product.manager@tafe.com
+P007,TAFE-PL01,Heavy Duty Plough,Implements,true,2025-11-05T10:30:00Z,product.manager@tafe.com,2026-01-20T10:45:00Z,product.admin@tafe.com
+P008,TAFE-SW01,Rotary Agricultural Sweeper,Implements,true,2025-11-12T09:00:00Z,product.admin@tafe.com,2026-04-02T11:35:00Z,product.manager@tafe.com
+P009,TAFE-SP01,Seed Planter Machine,Agricultural Implements,true,2025-11-18T13:45:00Z,product.admin@tafe.com,2026-02-10T12:10:00Z,product.manager@tafe.com
+P010,TAFE-FM01,Fertilizer Spreader,Agricultural Implements,true,2025-11-25T11:20:00Z,product.manager@tafe.com,2026-01-25T09:15:00Z,product.admin@tafe.com
