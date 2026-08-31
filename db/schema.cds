@@ -60,13 +60,14 @@ entity DealerDocuments : cuid {
     mimeType : String(100);
 
     dealer : Association to Dealer;
+
 }
 
-entity Products : cuid, managed {
+/*entity Products : cuid, managed {
   productCode : String(30);
   name        : String(100);
   unitPrice   : Decimal(15,2); 
-}
+}**/
 
 entity PurchaseOrders : cuid, managed {
   poNumber        : String(30);
@@ -86,3 +87,51 @@ entity POLineItems : cuid {
   product       : Association to Products;
   purchaseOrder : Association to PurchaseOrders;
 }
+
+entity Products : cuid, managed {
+    productCode : String(20)  @mandatory;
+    productName : String(100) @mandatory;
+    category    : String(50);
+    active      : Boolean default true;
+    unitPrice   : Decimal(15,2); 
+    prices      : Association to many PriceMaster on prices.product = $self;
+}
+
+entity Regions : cuid {
+    regionCode : String(10) @mandatory;
+    regionName : String(50) @mandatory;
+}
+
+entity PriceMaster : cuid, managed {
+    basePrice  : Decimal(15,2) @mandatory;
+    discount   : Decimal(15,2) default 0;  
+    tax        : Decimal(15,2) default 0;  
+    finalPrice : Decimal(15,2);            
+
+    region     : Association to Regions;
+    validFrom  : Date @mandatory;
+    validTo    : Date @mandatory;
+
+    status     : String(20) default 'ACTIVE';
+
+    product    : Association to Products @mandatory;
+
+    history    : Association to many PriceHistory on history.priceMaster = $self;
+}
+
+entity PriceHistory : cuid {
+    priceMaster   : Association to PriceMaster;
+    oldFinalPrice : Decimal(15,2);
+    newFinalPrice : Decimal(15,2);
+    changeReason  : String(100);
+    changedOn     : DateTime;
+    changedBy     : String(100);
+}
+
+entity PriceExpiryLog : cuid {
+    runOn        : DateTime;
+    expiredCount : Integer;
+    details      : LargeString;
+    triggeredBy  : String(50); 
+}
+

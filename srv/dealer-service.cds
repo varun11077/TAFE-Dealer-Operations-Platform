@@ -18,15 +18,5 @@ service DealerService {
 
     entity Products as projection on db.Products;
 
-    entity PurchaseOrders as projection on db.PurchaseOrders
-        actions {
-
-            action submitPO() returns String;
-
-            action approvePO() returns String;
-
-            action rejectPO(reason: String(200)) returns String;
-        };
-
-    entity POLineItems as projection on db.POLineItems;
+   
 }
