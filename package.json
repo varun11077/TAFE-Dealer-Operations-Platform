@@ -2,7 +2,7 @@
   "name": "TAFE",
   "version": "1.0.0",
   "dependencies": {
-    "@cap-js/hana": "^2",
+    "@cap-js/hana": "^2.8.1",
     "@sap/cds": "^9"
   },
   "devDependencies": {
@@ -11,6 +11,14 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "auth": "mocked"
+    },
+    "server": {
+      "index": true
+    }
   },
   "private": true
 }

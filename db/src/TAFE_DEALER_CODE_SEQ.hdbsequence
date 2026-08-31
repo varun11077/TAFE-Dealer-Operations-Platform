@@ -1,6 +1,6 @@
-start_with = 1;
-increment_by = 1;
-minvalue = 1;
-nomaxvalue = true;
-nominvalue = true;
-nocycle = true;
+SEQUENCE "TAFE_DEALER_CODE_SEQ"
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+NO MAXVALUE
+NO CYCLE
