@@ -1,19 +1,17 @@
 using { tafe.dealer as db } from '../db/schema';
 
-service PricingService @(path: '/pricing') {
+service PricingService  {
 
-    @readonly
+   
     entity Products as projection on db.Products;
 
     entity PriceMaster as projection on db.PriceMaster;
 
-    @readonly
     entity Regions as projection on db.Regions;
 
-    @readonly
+   
     entity PriceHistory as projection on db.PriceHistory;
 
-    @readonly
     entity PriceExpiryLog as projection on db.PriceExpiryLog;
 
     action recalculateFinalPrice(ID: UUID) returns {

@@ -1,16 +1,268 @@
 ### ============================================================
 
-### DEALER ONBOARDING - TEST HTTP
+### TAFE DEALER ONBOARDING - COMPLETE TEST.HTTP
+
+### SAP CAP + Node.js + OData V4
 
 ### ============================================================
 
-### 1. Get all dealers
+###
+
+### BASE URL:
+
+### http://localhost:4004/odata/v4/dealer
+
+###
+
+### EXISTING DEALER 1:
+
+### ID = fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b
+
+### CODE = DLR00001
+
+###
+
+### ============================================================
+
+### TEST CATEGORIES
+
+### ============================================================
+
+### 01 - Service Health
+
+### 02 - Metadata
+
+### 03 - Basic CRUD
+
+### 04 - Update
+
+### 05 - Dealer Lifecycle
+
+### 06 - Second Dealer - Reject Flow
+
+### 07 - Third Dealer - Retailer
+
+### 08 - Duplicate Validation
+
+### 09 - Field Validation
+
+### 10 - Missing Fields
+
+### 11 - OData Filtering
+
+### 12 - OData Selection
+
+### 13 - OData Sorting
+
+### 14 - Pagination
+
+### 15 - Count
+
+### 16 - Dealer Documents
+
+### 17 - Negative / 404 Tests
+
+### 18 - Delete
+
+###
+
+### ============================================================
+
+### ============================================================
+
+### 01. SERVICE HEALTH CHECK
+
+### Expected: 200 OK
+
+### ============================================================
 
 GET http://localhost:4004/odata/v4/dealer/Dealers
 
 ### ============================================================
 
-### 2. Create Dealer
+### 02. ODATA METADATA
+
+### Expected: 200 OK
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/$metadata
+
+### ============================================================
+
+### 03. GET ALL DEALERS
+
+### Expected: 200 OK
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers
+
+### ============================================================
+
+### 04. GET DEALER 1
+
+### Expected: 200 OK
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 05. SELECT SPECIFIC DEALER FIELDS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)?$select=ID,dealerCode,dealerName,gstNumber,panNumber,status
+
+### ============================================================
+
+### 06. UPDATE DEALER ADDRESS
+
+### Expected: 200 OK
+
+### ============================================================
+
+PATCH http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+Content-Type: application/json
+
+{
+"address": "Electronic City, Bangalore"
+}
+
+### ============================================================
+
+### 07. UPDATE DEALER PHONE
+
+### ============================================================
+
+PATCH http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+Content-Type: application/json
+
+{
+"phone": "9888800001"
+}
+
+### ============================================================
+
+### 08. UPDATE DEALER EMAIL
+
+### ============================================================
+
+PATCH http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+Content-Type: application/json
+
+{
+"email": "[sunrise.updated@testmail.com](mailto:sunrise.updated@testmail.com)"
+}
+
+### ============================================================
+
+### 09. VERIFY UPDATED DEALER
+
+### Expected:
+
+### address = Electronic City, Bangalore
+
+### phone   = 9888800001
+
+### email   = [sunrise.updated@testmail.com](mailto:sunrise.updated@testmail.com)
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 10. SUBMIT DEALER 1
+
+### Expected: Success
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/submitDealer
+Content-Type: application/json
+
+{}
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### 11. VERIFY AFTER SUBMIT
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 12. APPROVE DEALER 1
+
+### Expected: Success
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/approveDealer
+Content-Type: application/json
+
+{}
+
+### ============================================================
+
+### 13. VERIFY AFTER APPROVAL
+
+### Expected:
+
+### status = ACTIVE
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 14. BLOCK DEALER 1
+
+### Expected: Success
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/blockDealer
+Content-Type: application/json
+
+{
+"reason": "Compliance verification required",
+"remarks": "Dealer temporarily blocked for compliance review"
+}
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/approveDealer
+Content-Type: application/json
+
+{}
+###
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### 15. VERIFY AFTER BLOCK
+
+### Expected:
+
+### status = BLOCKED
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 16. CREATE DEALER 2
+
+### Used for REJECT FLOW
+
+### Expected: 201 Created
 
 ### ============================================================
 
@@ -18,66 +270,50 @@ POST http://localhost:4004/odata/v4/dealer/Dealers
 Content-Type: application/json
 
 {
-  "dealerName": "DEF Motors",
-  "gstNumber": "29DEFAB1234D1Z5",
-  "panNumber": "DEFAB1234D",
-  "email": "def.motors@gmail.com",
-  "phone": "9876543212",
-  "address": "Bangalore"
+"dealerName": "GreenField Machinery",
+"gstNumber": "27AABCG2002B1Z6",
+"panNumber": "AABCG2002B",
+"email": "[greenfield.machinery@testmail.com](mailto:greenfield.machinery@testmail.com)",
+"phone": "9000010002",
+"address": "Plot 24 Industrial Area",
+"city": "Pune",
+"state": "Maharashtra",
+"country": "India",
+"dealerType": "DISTRIBUTOR"
 }
 
 ### ============================================================
 
-### 3. Get Dealer by ID
+### 17. GET DEALER 2
 
-### Replace the ID with the ID returned from Create Dealer
+###
 
-### ============================================================
-
-GET http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)
+### Replace the UUID below with the ID returned from CREATE
 
 ### ============================================================
 
-### 4. Update Dealer
+GET http://localhost:4004/odata/v4/dealer/Dealers(22222222-2222-2222-2222-222222222222)
 
 ### ============================================================
 
-PATCH http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)
-Content-Type: application/json
-
-{
-"address": "Bangalore, Karnataka"
-}
+### 18. SUBMIT DEALER 2
 
 ### ============================================================
 
-### 5. Submit Dealer
-
-### ============================================================
-
-POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/submitDealer
+POST http://localhost:4004/odata/v4/dealer/Dealers(22222222-2222-2222-2222-222222222222)/submitDealer
 Content-Type: application/json
 
 {}
 
 ### ============================================================
 
-### 6. Approve Dealer
+### 19. REJECT DEALER 2
+
+### Expected: Success
 
 ### ============================================================
 
-POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/approveDealer
-Content-Type: application/json
-
-{}
-
-### ============================================================
-
-### 7. Reject Dealer
-
-### ============================================================
-
-POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/rejectDealer
+POST http://localhost:4004/odata/v4/dealer/Dealers(22222222-2222-2222-2222-222222222222)/rejectDealer
 Content-Type: application/json
 
 {
@@ -86,37 +322,733 @@ Content-Type: application/json
 
 ### ============================================================
 
-### 8. Block Dealer
+### 20. VERIFY DEALER 2 AFTER REJECTION
+
+### Expected:
+
+### status = REJECTED
 
 ### ============================================================
 
-POST http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)/blockDealer
+GET http://localhost:4004/odata/v4/dealer/Dealers(22222222-2222-2222-2222-222222222222)
+
+### ============================================================
+
+### 21. CREATE DEALER 3
+
+### RETAILER
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
 Content-Type: application/json
 
 {
-"reason": "Dealer compliance issue",
-"remarks": "Blocked for review"
+"dealerName": "Southern Agro Retail",
+"gstNumber": "33AABCS3003C1Z7",
+"panNumber": "AABCS3003C",
+"email": "[southern.agro@testmail.com](mailto:southern.agro@testmail.com)",
+"phone": "9000010003",
+"address": "45 Anna Nagar",
+"city": "Chennai",
+"state": "Tamil Nadu",
+"country": "India",
+"dealerType": "RETAILER"
 }
 
 ### ============================================================
 
-### 9. Delete Dealer
-
-### Expected: 405 - deletion not allowed
+### 22. GET ALL DEALERS AFTER CREATE
 
 ### ============================================================
 
-DELETE http://localhost:4004/odata/v4/dealer/Dealers(797ec2e3-3d55-4a90-9733-6c49f52907e5)
+GET http://localhost:4004/odata/v4/dealer/Dealers
 
+### ============================================================
 
-### Submit Dealer
+### 23. FILTER - ACTIVE DEALERS
 
-POST http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)/submitDealer
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'
+
+### ============================================================
+
+### 24. FILTER - PENDING DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'PENDING'
+
+### ============================================================
+
+### 25. FILTER - REJECTED DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'REJECTED'
+
+### ============================================================
+
+### 26. FILTER - BLOCKED DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'BLOCKED'
+
+### ============================================================
+
+### 27. FILTER - DEALER TYPE = DEALER
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'DEALER'
+
+### ============================================================
+
+### 28. FILTER - DEALER TYPE = DISTRIBUTOR
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'DISTRIBUTOR'
+
+### ============================================================
+
+### 29. FILTER - DEALER TYPE = RETAILER
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'RETAILER'
+
+### ============================================================
+
+### 30. FILTER BY STATE
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=state eq 'Karnataka'
+
+### ============================================================
+
+### 31. FILTER BY CITY
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=city eq 'Bangalore'
+
+### ============================================================
+
+### 32. SELECT DEALER BASIC INFORMATION
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$select=ID,dealerCode,dealerName,dealerType,status
+
+### ============================================================
+
+### 33. SELECT CONTACT INFORMATION
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$select=dealerName,email,phone,address
+
+### ============================================================
+
+### 34. SELECT BUSINESS IDENTIFIERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$select=dealerCode,gstNumber,panNumber
+
+### ============================================================
+
+### 35. ORDER BY DEALER NAME ASCENDING
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$orderby=dealerName asc
+
+### ============================================================
+
+### 36. ORDER BY DEALER NAME DESCENDING
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$orderby=dealerName desc
+
+### ============================================================
+
+### 37. ORDER BY CREATED DATE
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$orderby=createdAt desc
+
+### ============================================================
+
+### 38. TOP 5 DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$top=5
+
+### ============================================================
+
+### 39. SKIP 0 TOP 5
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$skip=0&$top=5
+
+### ============================================================
+
+### 40. SKIP 1 TOP 5
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$skip=1&$top=5
+
+### ============================================================
+
+### 41. COUNT DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$count=true
+
+### ============================================================
+
+### 42. FILTER + SELECT
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'&$select=ID,dealerName,dealerType,status
+
+### ============================================================
+
+### 43. FILTER + ORDERBY
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'DEALER'&$orderby=dealerName asc
+
+### ============================================================
+
+### 44. FILTER + PAGINATION
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'PENDING'&$skip=0&$top=10
+
+### ============================================================
+
+### 45. DUPLICATE GST
+
+### Expected:
+
+### 409 Conflict
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Duplicate GST Dealer",
+"gstNumber": "29AAACS1001A1Z5",
+"panNumber": "DUPGST4001A",
+"email": "[duplicate.gst@testmail.com](mailto:duplicate.gst@testmail.com)",
+"phone": "9000040001",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 46. DUPLICATE PAN
+
+### Expected:
+
+### 409 Conflict
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Duplicate PAN Dealer",
+"gstNumber": "29DUPPAN4002A1Z6",
+"panNumber": "AAACS1001A",
+"email": "[duplicate.pan@testmail.com](mailto:duplicate.pan@testmail.com)",
+"phone": "9000040002",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 47. DUPLICATE EMAIL
+
+### Expected:
+
+### 409 Conflict
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Duplicate Email Dealer",
+"gstNumber": "29DUPEMAIL4003A1Z7",
+"panNumber": "DUPEM4003A",
+"email": "[sunrise.updated@testmail.com](mailto:sunrise.updated@testmail.com)",
+"phone": "9000040003",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 48. INVALID EMAIL
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Invalid Email Dealer",
+"gstNumber": "29INVEMAIL4004A1Z8",
+"panNumber": "INVEM4004A",
+"email": "invalid-email",
+"phone": "9000040004",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 49. INVALID PHONE
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Invalid Phone Dealer",
+"gstNumber": "29INVPHONE4005A1Z9",
+"panNumber": "INVPH4005A",
+"email": "[invalid.phone@testmail.com](mailto:invalid.phone@testmail.com)",
+"phone": "12345",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 50. INVALID GST
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Invalid GST Dealer",
+"gstNumber": "INVALIDGST",
+"panNumber": "INVGS4006A",
+"email": "[invalid.gst@testmail.com](mailto:invalid.gst@testmail.com)",
+"phone": "9000040006",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 51. INVALID PAN
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Invalid PAN Dealer",
+"gstNumber": "29INVALIDPAN4007A1Z5",
+"panNumber": "INVALIDPAN",
+"email": "[invalid.pan@testmail.com](mailto:invalid.pan@testmail.com)",
+"phone": "9000040007",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 52. INVALID DEALER TYPE
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Invalid Type Dealer",
+"gstNumber": "29INVTYPE4008A1Z5",
+"panNumber": "INVTP4008A",
+"email": "[invalid.type@testmail.com](mailto:invalid.type@testmail.com)",
+"phone": "9000040008",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "WHOLESALER"
+}
+
+### ============================================================
+
+### 53. MISSING DEALER NAME
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"gstNumber": "29MISSING4009A1Z5",
+"panNumber": "MISNM4009A",
+"email": "[missing.name@testmail.com](mailto:missing.name@testmail.com)",
+"phone": "9000040009",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 54. MISSING GST
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Missing GST Dealer",
+"panNumber": "MISGST4010A",
+"email": "[missing.gst@testmail.com](mailto:missing.gst@testmail.com)",
+"phone": "9000040010",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 55. MISSING PAN
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Missing PAN Dealer",
+"gstNumber": "29MISSPN4011A1Z5",
+"email": "[missing.pan@testmail.com](mailto:missing.pan@testmail.com)",
+"phone": "9000040011",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 56. MISSING EMAIL
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Missing Email Dealer",
+"gstNumber": "29MISSEM4012A1Z5",
+"panNumber": "MISSEM4012A",
+"phone": "9000040012",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 57. MISSING PHONE
+
+### Expected:
+
+### 400 Bad Request
+
+### ============================================================
+
+POST http://localhost:4004/odata/v4/dealer/Dealers
+Content-Type: application/json
+
+{
+"dealerName": "Missing Phone Dealer",
+"gstNumber": "29MISSPH4013A1Z5",
+"panNumber": "MISSPH4013A",
+"email": "[missing.phone@testmail.com](mailto:missing.phone@testmail.com)",
+"address": "Mysore",
+"city": "Mysore",
+"state": "Karnataka",
+"country": "India",
+"dealerType": "DEALER"
+}
+
+### ============================================================
+
+### 58. NON-EXISTING DEALER
+
+### Expected:
+
+### 404 Not Found
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(00000000-0000-0000-0000-000000000001)
+
+### ============================================================
+
+### 59. UPDATE NON-EXISTING DEALER
+
+### Expected:
+
+### 404 Not Found
+
+### ============================================================
+
+PATCH http://localhost:4004/odata/v4/dealer/Dealers(00000000-0000-0000-0000-000000000002)
+Content-Type: application/json
+
+{
+"address": "Invalid Test Address"
+}
+
+### ============================================================
+
+### 60. DELETE NON-EXISTING DEALER
+
+### Expected:
+
+### 404 Not Found
+
+### ============================================================
+
+DELETE http://localhost:4004/odata/v4/dealer/Dealers(00000000-0000-0000-0000-000000000003)
+
+### ============================================================
+
+### 61. GET ALL DEALER DOCUMENTS
+
+### Expected: 200 OK
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/DealerDocuments
+
+### ============================================================
+
+### 62. DEALER DOCUMENTS COUNT
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/DealerDocuments?$count=true
+
+### ============================================================
+
+### 63. DEALER DOCUMENTS TOP 10
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/DealerDocuments?$top=10
+
+### ============================================================
+
+### 64. DELETE DEALER 1
+
+### ============================================================
+
+###
+
+### IMPORTANT:
+
+### Run this LAST.
+
+###
+
+### Expected:
+
+### 204 No Content
+
+###
+
+### ============================================================
+
+DELETE http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 65. VERIFY DEALER 1 DELETED
+
+### Expected:
+
+### 404 Not Found
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+### ============================================================
+
+### 66. FINAL GET ALL DEALERS
+
+### ============================================================
+
+GET http://localhost:4004/odata/v4/dealer/Dealers
+
+### ============================================================
+
+### END OF TEST FILE
+
+### ============================================================
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+###
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/submitDealer
 Content-Type: application/json
 
 {}
 
+###
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+###
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/approveDealer
+Content-Type: application/json
 
-### Verify Dealer Status After Submit
+{}
 
-GET http://localhost:4004/odata/v4/dealer/Dealers(2e2f02d2-41f5-4428-beea-eb49a0797677)
+###
+GET http://localhost:4004/odata/v4/dealer/$metadata
+
+
+###
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/submitDealer
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+###
+POST http://localhost:4004/odata/v4/dealer/DealerDocuments
+Content-Type: application/json
+
+{
+  "documentType": "GST_CERTIFICATE",
+  "fileName": "SunriseFarm_GST_Certificate.pdf",
+  "mimeType": "application/pdf",
+  "dealer_ID": "fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b"
+}
+
+###
+GET http://localhost:4004/odata/v4/dealer/DealerDocuments
+
+###
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/documents
+
+
+###
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/submitDealer
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)
+
+###
+POST http://localhost:4004/odata/v4/dealer/Dealers(fb5b68ca-8695-4e36-b6dc-6e1e3bb72f1b)/l1Approve
+Content-Type: application/json
+
+{
+  "remarks": "L1 approval completed after GST certificate verification"
+}

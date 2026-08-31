@@ -2,19 +2,36 @@ namespace tafe.dealer;
 
 using { cuid, managed } from '@sap/cds/common';
 
+
+/* =========================================================
+   DEALER STATUS
+   ========================================================= */
+
 type DealerStatus : String enum {
     PENDING;
+    SUBMITTED;
+    L1_APPROVED;
     ACTIVE;
     REJECTED;
     BLOCKED;
     INACTIVE;
 }
 
+
+/* =========================================================
+   DEALER TYPE
+   ========================================================= */
+
 type DealerType : String enum {
     DEALER;
     DISTRIBUTOR;
     RETAILER;
 }
+
+
+/* =========================================================
+   DEALER
+   ========================================================= */
 
 entity Dealer : cuid, managed {
 
@@ -40,16 +57,33 @@ entity Dealer : cuid, managed {
 
     dealerType : DealerType;
 
-    status : DealerStatus;
+    status : DealerStatus default 'PENDING';
 
     blockedReason : String(200);
 
     remarks : String(500);
 
+
+    /* -----------------------------------------------------
+       Dealer Documents
+       ----------------------------------------------------- */
+
     documents : Composition of many DealerDocuments
         on documents.dealer = $self;
+
+
+    /* -----------------------------------------------------
+       Onboarding Approval History
+       ----------------------------------------------------- */
+
+    approvalHistory : Composition of many OnboardingApprovals
+        on approvalHistory.dealer = $self;
 }
 
+
+/* =========================================================
+   DEALER DOCUMENTS
+   ========================================================= */
 
 entity DealerDocuments : cuid {
 
@@ -60,78 +94,165 @@ entity DealerDocuments : cuid {
     mimeType : String(100);
 
     dealer : Association to Dealer;
-
 }
 
-/*entity Products : cuid, managed {
-  productCode : String(30);
-  name        : String(100);
-  unitPrice   : Decimal(15,2); 
-}**/
+
+/* =========================================================
+   DEALER ONBOARDING APPROVAL HISTORY
+   ========================================================= */
+
+entity OnboardingApprovals : cuid, managed {
+
+    action : String(30);
+
+    level : Integer;
+
+    remarks : String(500);
+
+    actionBy : String(100);
+
+    actionAt : DateTime;
+
+    dealer : Association to Dealer;
+}
+
+
+/* =========================================================
+   PURCHASE ORDERS
+   ========================================================= */
 
 entity PurchaseOrders : cuid, managed {
-  poNumber        : String(30);
-  orderDate       : Date;
-  totalAmount     : Decimal(15,2) default 0;
-  taxAmount       : Decimal(15,2) default 0;
-  status          : String(20) default 'DRAFT'; 
-  rejectionReason : String(255);
-  dealer          : Association to Dealer;
-  items           : Composition of many POLineItems on items.purchaseOrder = $self;
+
+    poNumber : String(30);
+
+    orderDate : Date;
+
+    totalAmount : Decimal(15,2) default 0;
+
+    taxAmount : Decimal(15,2) default 0;
+
+    status : String(20) default 'DRAFT';
+
+    rejectionReason : String(255);
+
+    dealer : Association to Dealer;
+
+    items : Composition of many POLineItems
+        on items.purchaseOrder = $self;
 }
+
+
+/* =========================================================
+   PO LINE ITEMS
+   ========================================================= */
 
 entity POLineItems : cuid {
-  quantity      : Integer;
-  unitPrice     : Decimal(15,2);
-  lineTotal     : Decimal(15,2);
-  product       : Association to Products;
-  purchaseOrder : Association to PurchaseOrders;
+
+    quantity : Integer;
+
+    unitPrice : Decimal(15,2);
+
+    lineTotal : Decimal(15,2);
+
+    product : Association to Products;
+
+    purchaseOrder : Association to PurchaseOrders;
 }
+
+
+/* =========================================================
+   PRODUCTS
+   ========================================================= */
 
 entity Products : cuid, managed {
-    productCode : String(20)  @mandatory;
+
+    productCode : String(20) @mandatory;
+
     productName : String(100) @mandatory;
-    category    : String(50);
-    active      : Boolean default true;
-    unitPrice   : Decimal(15,2); 
-    prices      : Association to many PriceMaster on prices.product = $self;
+
+    category : String(50);
+
+    active : Boolean default true;
+
+    unitPrice : Decimal(15,2);
+
+    prices : Association to many PriceMaster
+        on prices.product = $self;
 }
 
+
+/* =========================================================
+   REGIONS
+   ========================================================= */
+
 entity Regions : cuid {
+
     regionCode : String(10) @mandatory;
+
     regionName : String(50) @mandatory;
 }
 
+
+/* =========================================================
+   PRICE MASTER
+   ========================================================= */
+
 entity PriceMaster : cuid, managed {
-    basePrice  : Decimal(15,2) @mandatory;
-    discount   : Decimal(15,2) default 0;  
-    tax        : Decimal(15,2) default 0;  
-    finalPrice : Decimal(15,2);            
 
-    region     : Association to Regions;
-    validFrom  : Date @mandatory;
-    validTo    : Date @mandatory;
+    basePrice : Decimal(15,2) @mandatory;
 
-    status     : String(20) default 'ACTIVE';
+    discount : Decimal(15,2) default 0;
 
-    product    : Association to Products @mandatory;
+    tax : Decimal(15,2) default 0;
 
-    history    : Association to many PriceHistory on history.priceMaster = $self;
+    finalPrice : Decimal(15,2);
+
+    region : Association to Regions;
+
+    validFrom : Date @mandatory;
+
+    validTo : Date @mandatory;
+
+    status : String(20) default 'ACTIVE';
+
+    product : Association to Products @mandatory;
+
+    history : Association to many PriceHistory
+        on history.priceMaster = $self;
 }
+
+
+/* =========================================================
+   PRICE HISTORY
+   ========================================================= */
 
 entity PriceHistory : cuid {
-    priceMaster   : Association to PriceMaster;
+
+    priceMaster : Association to PriceMaster;
+
     oldFinalPrice : Decimal(15,2);
+
     newFinalPrice : Decimal(15,2);
-    changeReason  : String(100);
-    changedOn     : DateTime;
-    changedBy     : String(100);
+
+    changeReason : String(100);
+
+    changedOn : DateTime;
+
+    changedBy : String(100);
 }
+
+
+/* =========================================================
+   PRICE EXPIRY LOG
+   ========================================================= */
 
 entity PriceExpiryLog : cuid {
-    runOn        : DateTime;
-    expiredCount : Integer;
-    details      : LargeString;
-    triggeredBy  : String(50); 
-}
 
+    runOn : DateTime;
+
+    expiredCount : Integer;
+
+    details : LargeString;
+
+    triggeredBy : String(50);
+}
