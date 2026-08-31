@@ -64,11 +64,15 @@ entity Dealer : cuid, managed {
     remarks : String(500);
     documents : Composition of many DealerDocuments
         on documents.dealer = $self;
+    targets       : Association to many DealerTargets
+                       on targets.dealer = $self;
 
+    achievements  : Association to many SalesAchievements
+                       on achievements.dealer = $self;
 
-    /* -----------------------------------------------------
-       Onboarding Approval History
-       ----------------------------------------------------- */
+    kpis           : Association to many DealerKPIs
+                       on kpis.dealer = $self;
+
 
     approvalHistory : Composition of many OnboardingApprovals
         on approvalHistory.dealer = $self;
@@ -249,3 +253,26 @@ entity PriceExpiryLog : cuid {
     triggeredBy  : String(50); 
 }
 
+
+entity DealerTargets : cuid {
+    targetMonth  : Integer;
+    targetYear   : Integer;
+    targetAmount : Decimal(15,2);
+
+    dealer : Association to Dealer;
+}
+
+entity SalesAchievements : cuid {
+    achievementMonth : Integer;
+    achievementYear  : Integer;
+    actualAmount     : Decimal(15,2);
+
+    dealer : Association to Dealer;
+}
+
+entity DealerKPIs : cuid {
+    achievementPercentage : Decimal(5,2);
+    performanceScore      : Decimal(5,2);
+
+    dealer : Association to Dealer;
+}
