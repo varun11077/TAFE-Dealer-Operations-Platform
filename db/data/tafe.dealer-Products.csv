@@ -1,0 +1,13 @@
+ID,productCode,productName,category,active,unitPrice,createdAt,createdBy,modifiedAt,modifiedBy
+63e52d3f-d0dd-46bb-bfca-d2cd297b6f31,TAFE-4501,TAFE 45 DI Orchard,TRACTOR,true,725000,2024-01-10T09:00:00Z,onboarding.srv@tafe.com,2024-02-09T09:00:00Z,onboarding.srv@tafe.com
+05c899ea-fd39-4cb4-bf0d-c6d95480c1bc,TAFE-4201,TAFE 42 DI,TRACTOR,true,650000,2024-01-13T09:00:00Z,onboarding.srv@tafe.com,2024-02-12T09:00:00Z,onboarding.srv@tafe.com
+ffb5b8bd-90c4-4429-b70e-0ae6238eca9a,MF-2411,Massey Ferguson 241 DI,TRACTOR,true,680000,2024-01-16T09:00:00Z,onboarding.srv@tafe.com,2024-02-15T09:00:00Z,onboarding.srv@tafe.com
+e4bc5e3e-4e25-459d-b028-82f369b11178,MF-1035,Massey Ferguson 1035 DI,TRACTOR,true,870000,2024-01-19T09:00:00Z,onboarding.srv@tafe.com,2024-02-18T09:00:00Z,onboarding.srv@tafe.com
+0724dbee-d98f-4700-9ea0-9f256ccc446f,MF-7250,Massey Ferguson 7250 DI Power+,TRACTOR,true,945000,2024-01-22T09:00:00Z,onboarding.srv@tafe.com,2024-02-21T09:00:00Z,onboarding.srv@tafe.com
+0c4444c2-24b6-4079-9cb2-b24f61f3f98e,TAFE-9500,TAFE 9500 Progressive,TRACTOR,true,980000,2024-01-25T09:00:00Z,onboarding.srv@tafe.com,2024-02-24T09:00:00Z,onboarding.srv@tafe.com
+93d7948a-b30e-4077-b374-287bcd6e998e,SP-HYD01,Hydraulic Pump Assembly,SPARE_PART,true,12500,2024-01-28T09:00:00Z,onboarding.srv@tafe.com,2024-02-27T09:00:00Z,onboarding.srv@tafe.com
+c5ced698-26c0-4b6b-b504-2eb913a95377,SP-CLU02,Clutch Plate Kit,SPARE_PART,true,6200,2024-01-31T09:00:00Z,onboarding.srv@tafe.com,2024-03-01T09:00:00Z,onboarding.srv@tafe.com
+479451c3-c501-48d4-9ef9-ebf977ad93d4,SP-OIL03,Engine Oil Filter,SPARE_PART,true,650,2024-02-03T09:00:00Z,onboarding.srv@tafe.com,2024-03-04T09:00:00Z,onboarding.srv@tafe.com
+ef627b6f-54a0-4fb9-a16d-126452ff2807,SP-INJ04,Fuel Injector Nozzle,SPARE_PART,true,2400,2024-02-06T09:00:00Z,onboarding.srv@tafe.com,2024-03-07T09:00:00Z,onboarding.srv@tafe.com
+2bbff2f8-b41d-4cb4-a928-94f417067709,IMP-ROT01,Rotavator RX-6,IMPLEMENT,true,118000,2024-02-09T09:00:00Z,onboarding.srv@tafe.com,2024-03-10T09:00:00Z,onboarding.srv@tafe.com
+977bb488-ef3f-4d9b-964f-15a98522c3a0,IMP-TRL02,Trailer 5-Ton Hydraulic,IMPLEMENT,true,145000,2024-02-12T09:00:00Z,onboarding.srv@tafe.com,2024-03-13T09:00:00Z,onboarding.srv@tafe.com

@@ -1,1 +1,9 @@
 ID,poNumber,orderDate,totalAmount,taxAmount,status,rejectionReason,dealer_ID,createdAt,createdBy,modifiedAt,modifiedBy
+4c05a118-f300-45b1-b02b-ba713ed19675,PO-2026-5001,2026-07-07,1144364.0,174564.0,APPROVED,,6ee050d1-8498-4eda-9e45-2a3644227c14,2026-07-07T09:00:00Z,onboarding.srv@tafe.com,2026-07-08T09:00:00Z,onboarding.srv@tafe.com
+aac726e1-d813-456a-8464-0f2c92d9d4e6,PO-2026-5002,2026-04-23,3565960.0,543960.0,SUBMITTED,,6ee050d1-8498-4eda-9e45-2a3644227c14,2026-04-23T09:00:00Z,onboarding.srv@tafe.com,2026-04-24T09:00:00Z,onboarding.srv@tafe.com
+f4552deb-f3be-4429-a7c0-f580935e90f4,PO-2026-5003,2026-07-17,1192272.0,181872.0,REJECTED,Credit limit exceeded for dealer,1d977b43-69a5-411c-8d92-7be26cf2d766,2026-07-17T09:00:00Z,onboarding.srv@tafe.com,2026-07-18T09:00:00Z,onboarding.srv@tafe.com
+50aa01fb-2023-48e9-ad8c-e4c48a2088f4,PO-2026-5004,2026-06-26,1174926.0,179226.0,DELIVERED,,e0c669d7-9d99-43ce-aecb-5f8cf845c22e,2026-06-26T09:00:00Z,onboarding.srv@tafe.com,2026-06-27T09:00:00Z,onboarding.srv@tafe.com
+c05d347a-1653-4cb6-8048-7f602c5b9d43,PO-2026-5005,2026-07-18,2070192.0,315792.0,APPROVED,,9029a2f7-0b5f-47d9-b310-6e6a0575679f,2026-07-18T09:00:00Z,onboarding.srv@tafe.com,2026-07-19T09:00:00Z,onboarding.srv@tafe.com
+275365bb-da6f-42d1-bc2e-1a5c3c1a1775,PO-2026-5006,2026-05-04,2578064.0,393264.0,APPROVED,,af5b77dd-7398-4fe0-9057-471c9d943e83,2026-05-04T09:00:00Z,onboarding.srv@tafe.com,2026-05-05T09:00:00Z,onboarding.srv@tafe.com
+b2f4c42e-7e57-4d0e-95e8-f9412d51437e,PO-2026-5007,2026-04-10,1391456.0,212256.0,DELIVERED,,af5b77dd-7398-4fe0-9057-471c9d943e83,2026-04-10T09:00:00Z,onboarding.srv@tafe.com,2026-04-11T09:00:00Z,onboarding.srv@tafe.com
+9f983864-641f-44e3-ac14-ef320418bd02,PO-2026-5008,2026-05-07,1181298.0,180198.0,SUBMITTED,,62b2325b-6eeb-45e3-8a03-6ff8588f5296,2026-05-07T09:00:00Z,onboarding.srv@tafe.com,2026-05-08T09:00:00Z,onboarding.srv@tafe.com

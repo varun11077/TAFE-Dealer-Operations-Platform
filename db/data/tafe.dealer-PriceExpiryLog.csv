@@ -1,0 +1,4 @@
+ID,runOn,expiredCount,details,triggeredBy
+6e2940d5-21bb-453c-8e2e-dd5ce4af4f95,2026-06-30T00:00:00Z,1,Expired 0 price record(s) with validTo before 2026-06-30,SCHEDULER_JOB
+626c639b-c965-4382-ae14-fe0b118260cb,2026-07-30T00:00:00Z,0,Expired 1 price record(s) with validTo before 2026-07-30,SCHEDULER_JOB
+e0e2a665-fae4-4f52-80be-8a75ece019e3,2026-08-29T00:00:00Z,0,Expired 0 price record(s) with validTo before 2026-08-29,SCHEDULER_JOB

@@ -1,0 +1,7 @@
+ID,priceMaster_ID,oldFinalPrice,newFinalPrice,changeReason,changedOn,changedBy
+048a0849-7c93-4e96-bc64-60ab17202de6,b6da5410-4075-45c3-98fc-94328b1c32ca,1180221.84,1092798.0,Festive season discount revision,2026-02-01T00:00:00Z,onboarding.srv@tafe.com
+aca2da30-2fd1-4bc3-bcf3-884a68b40976,739d7207-be21-432a-b4b8-3cdc2c8a749a,2914.13,2775.36,GST rate change adjustment,2026-02-11T00:00:00Z,onboarding.srv@tafe.com
+26e8e16d-51f9-4977-8814-3b34b0bda4cf,d4a374e3-771a-4b34-ab16-55df7df3b0fb,747707.0,812725.0,Raw material cost increase,2026-02-21T00:00:00Z,onboarding.srv@tafe.com
+d10a1ab7-0894-4b3e-abd3-d4d2babc07d6,e2a5c394-df92-4e66-96ab-9967b995d930,955764.6,1006068.0,Quarterly price review,2026-03-03T00:00:00Z,onboarding.srv@tafe.com
+9891a7ce-bb90-4b41-b7c0-b2bb46e9c0fa,40cc8a99-50b0-4d3a-b445-91770951833d,7743.25,7169.68,Freight cost revision,2026-03-13T00:00:00Z,onboarding.srv@tafe.com
+e5e3349c-38cd-46a6-8cb6-6b59f746d9dc,64e54fdd-2ab1-49ca-8194-b7629392fb01,765082.5,728650.0,Regional demand-based pricing update,2026-03-23T00:00:00Z,onboarding.srv@tafe.com
