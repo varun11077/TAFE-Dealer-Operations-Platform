@@ -62,12 +62,6 @@ entity Dealer : cuid, managed {
     blockedReason : String(200);
 
     remarks : String(500);
-
-
-    /* -----------------------------------------------------
-       Dealer Documents
-       ----------------------------------------------------- */
-
     documents : Composition of many DealerDocuments
         on documents.dealer = $self;
 
@@ -251,8 +245,7 @@ entity PriceExpiryLog : cuid {
     runOn : DateTime;
 
     expiredCount : Integer;
-
-    details : LargeString;
-
-    triggeredBy : String(50);
+    details      : LargeString;
+    triggeredBy  : String(50); 
 }
+

@@ -27,10 +27,9 @@ module.exports = cds.service.impl(async function () {
         } = req.data;
 
 
-        // --------------------------------------------------------
+      
         // 1. Mandatory validation
-        // --------------------------------------------------------
-
+      
         if (!dealer_ID) {
             return req.reject(
                 400,
@@ -39,9 +38,9 @@ module.exports = cds.service.impl(async function () {
         }
 
 
-        // --------------------------------------------------------
+       
         // 2. Dealer existence & status check
-        // --------------------------------------------------------
+       
 
         const dealer =
             await SELECT.one
@@ -65,10 +64,8 @@ module.exports = cds.service.impl(async function () {
         }
 
 
-        // --------------------------------------------------------
+       
         // 3. Defaults
-        // --------------------------------------------------------
-
         req.data.orderDate =
             req.data.orderDate ||
             new Date().toISOString().slice(0, 10);
