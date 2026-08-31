@@ -24,10 +24,8 @@ service PurchaseOrderService {
             action expirePrice() returns String;
         };
 
-    @readonly
     entity PriceHistory as projection on db.PriceHistory;
 
-    @readonly
     entity PriceExpiryLog as projection on db.PriceExpiryLog;
 
     // Batch job - expires all PriceMaster records whose validTo has passed
