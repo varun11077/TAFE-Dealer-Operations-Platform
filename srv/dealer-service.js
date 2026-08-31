@@ -600,15 +600,15 @@ module.exports = cds.service.impl(async function () {
 
         // Authorization
 
-        if (
-            !req.user.is("DealerManager") &&
-            !req.user.is("Admin")
-        ) {
-            return req.reject(
-                403,
-                "You are not authorized to approve dealers."
-            );
-        }
+        // if (
+        //     !req.user.is("DealerManager") &&
+        //     !req.user.is("Admin")
+        // ) {
+        //     return req.reject(
+        //         403,
+        //         "You are not authorized to approve dealers."
+        //     );
+        // }
 
 
         const dealer = await SELECT.one

@@ -1052,3 +1052,1232 @@ Content-Type: application/json
 {
   "remarks": "L1 approval completed after GST certificate verification"
 }
+
+
+
+### =========================================================
+
+### TAFE - COMPLETE TEST.HTTP
+
+### All 4 Services
+
+### =========================================================
+
+###
+
+### SERVICES
+
+###
+
+### DealerService
+
+### http://localhost:4004/odata/v4/dealer
+
+###
+
+### AnalyticsService
+
+### http://localhost:4004/odata/v4/analytics
+
+###
+
+### PricingService
+
+### http://localhost:4004/pricing
+
+###
+
+### PurchaseOrderService
+
+### http://localhost:4004/odata/v4/purchase-order
+
+###
+
+### =========================================================
+
+### =========================================================
+
+### DEALER SERVICE
+
+### =========================================================
+
+### ---------------------------------------------------------
+
+### D1. GET all Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers
+
+### ---------------------------------------------------------
+
+### D2. GET Dealer by ID - Sri Balaji Tractors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(6ee050d1-8498-4eda-9e45-2a3644227c14)
+
+### ---------------------------------------------------------
+
+### D3. GET active Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'
+
+### ---------------------------------------------------------
+
+### D4. GET submitted Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'SUBMITTED'
+
+### ---------------------------------------------------------
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerCode%20eq%20%27DLR1000%27
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'PENDING'
+
+### ---------------------------------------------------------
+
+### D6. GET L1 approved Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'L1_APPROVED'
+
+### ---------------------------------------------------------
+
+### D7. GET rejected Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'REJECTED'
+
+### ---------------------------------------------------------
+
+### D8. GET blocked Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'BLOCKED'
+
+### ---------------------------------------------------------
+
+### D9. GET inactive Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'INACTIVE'
+
+### ---------------------------------------------------------
+
+### D10. GET Dealers by dealer type DEALER
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'DEALER'
+
+### ---------------------------------------------------------
+
+### D11. GET Dealers by dealer type DISTRIBUTOR
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'DISTRIBUTOR'
+
+### ---------------------------------------------------------
+
+### D12. GET Dealers by dealer type RETAILER
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerType eq 'RETAILER'
+
+### ---------------------------------------------------------
+
+### D13. GET Dealers from Karnataka
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=state eq 'Karnataka'
+
+### ---------------------------------------------------------
+
+### D14. GET Dealers from Tamil Nadu
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=state eq 'Tamil Nadu'
+
+### ---------------------------------------------------------
+
+### D15. GET Dealers from Maharashtra
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=state eq 'Maharashtra'
+
+### ---------------------------------------------------------
+### Get dealers from Maharashtra
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=state%20eq%20%27Maharashtra%27
+### D16. GET Dealer by dealerCode
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=dealerCode eq 'DLR1000'
+
+### ---------------------------------------------------------
+
+### D17. GET Dealer by GST number
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=gstNumber eq '33EMUBC8159B1Z5'
+
+### ---------------------------------------------------------
+
+### D18. GET Dealer with selected fields
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$select=ID,dealerCode,dealerName,status,dealerType
+
+### ---------------------------------------------------------
+
+### D19. GET Active Dealers with selected fields
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'&$select=ID,dealerCode,dealerName,dealerType,status
+
+### ---------------------------------------------------------
+
+### D20. GET Dealers ordered by dealer name
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$orderby=dealerName asc
+
+### ---------------------------------------------------------
+
+### D21. GET top 5 Dealers
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$top=5
+
+### ---------------------------------------------------------
+
+### D22. GET Dealer count
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$count=true
+
+### ---------------------------------------------------------
+
+### D23. GET Dealer Documents
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/DealerDocuments
+
+### ---------------------------------------------------------
+
+### D24. GET Onboarding Approval History
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/OnboardingApprovals
+
+### ---------------------------------------------------------
+
+### D25. GET Products through DealerService
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Products
+
+### ---------------------------------------------------------
+
+### D26. GET Dealer with Documents and Approval History
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(6ee050d1-8498-4eda-9e45-2a3644227c14)?$expand=documents,approvalHistory
+
+### =========================================================
+
+### DEALER ACTIONS
+
+### =========================================================
+
+### ---------------------------------------------------------
+
+### D27. Submit Dealer
+
+### Dealer: Saurashtra Agro Traders
+
+### ID: 6fe0d9f9-3bca-4a12-acca-4c914a133cbe
+
+### Current status: SUBMITTED
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(6fe0d9f9-3bca-4a12-acca-4c914a133cbe)/submitDealer
+Content-Type: application/json
+
+{}
+
+### ---------------------------------------------------------
+
+### D28. L1 Approve Dealer
+
+### Dealer: Saurashtra Agro Traders
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(6fe0d9f9-3bca-4a12-acca-4c914a133cbe)/l1Approve
+Content-Type: application/json
+
+{
+"remarks": "L1 verification completed successfully"
+}
+
+### ---------------------------------------------------------
+
+### D29. L2 Approve Dealer
+
+### Dealer: Ganga Tractor House
+
+### ID: 43f3cd61-8168-4057-bae8-8d15266bd583
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(43f3cd61-8168-4057-bae8-8d15266bd583)/l2Approve
+Content-Type: application/json
+
+{
+"remarks": "L2 review completed and dealer approved"
+}
+
+### ---------------------------------------------------------
+POST http://localhost:4004/odata/v4/dealer/Dealers(43f3cd61-8168-4057-bae8-8d15266bd583)/l2Approve
+### D30. Reject Dealer
+
+### Dealer: Konkan Tractor Point
+
+### ID: 133ec1d1-2b3e-4b18-b552-2b17bf3b8b57
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(133ec1d1-2b3e-4b18-b552-2b17bf3b8b57)/rejectDealer
+Content-Type: application/json
+
+{
+"reason": "GST and business documents could not be verified"
+}
+
+### ---------------------------------------------------------
+
+### D31. Block Dealer
+
+### Dealer: Kaveri Agro Machinery
+
+### ID: 1d977b43-69a5-411c-8d92-7be26cf2d766
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/dealer/Dealers(1d977b43-69a5-411c-8d92-7be26cf2d766)/blockDealer
+Content-Type: application/json
+
+{
+"reason": "Compliance violation",
+"remarks": "Dealer blocked after compliance review"
+}
+
+### =========================================================
+
+### ANALYTICS SERVICE
+
+### =========================================================
+
+### Base URL
+
+### http://localhost:4004/odata/v4/analytics
+
+### ---------------------------------------------------------
+
+### A1. GET all Dealer Targets
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerTargets
+
+### ---------------------------------------------------------
+
+### A2. GET all Sales Achievements
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/SalesAchievements
+
+### ---------------------------------------------------------
+
+### A3. GET all Dealer KPIs
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerKPIs
+
+### ---------------------------------------------------------
+
+### A4. GET Dealer Targets for specific Dealer
+
+### Sri Balaji Tractors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerTargets?$filter=dealer_ID eq 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+### A5. GET Sales Achievements for specific Dealer
+
+### Sri Balaji Tractors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/SalesAchievements?$filter=dealer_ID eq 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+### A6. GET Dealer KPIs for specific Dealer
+
+### Sri Balaji Tractors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerKPIs?$filter=dealer_ID eq 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+### A7. GET Targets for March 2025
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerTargets?$filter=targetMonth eq 3 and targetYear eq 2025
+
+### ---------------------------------------------------------
+
+### A8. GET Achievements for March 2025
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/SalesAchievements?$filter=achievementMonth eq 3 and achievementYear eq 2025
+
+### ---------------------------------------------------------
+
+### A9. GET KPI with selected fields
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/DealerKPIs?$select=ID,dealer_ID,achievementPercentage,performanceScore
+
+### ---------------------------------------------------------
+
+### A10. Get Dealer Achievement
+
+### Dealer: Sri Balaji Tractors
+
+### Dealer ID:
+
+### 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### A11. Get Dealer Achievement - April 2025
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=4,year=2025)
+
+### ---------------------------------------------------------
+
+### A12. Get Dealer Achievement - May 2025
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=5,year=2025)
+
+### ---------------------------------------------------------
+
+### A13. Get Dealer KPI
+
+### Dealer: Sri Balaji Tractors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerKPI(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### A14. Get Dealer KPI - April
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerKPI(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=4,year=2025)
+
+### ---------------------------------------------------------
+
+### A15. Get Dealer KPI - May
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerKPI(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=5,year=2025)
+
+### ---------------------------------------------------------
+
+### A16. Achievement for Kaveri Agro Machinery
+
+### ID:
+
+### 1d977b43-69a5-411c-8d92-7be26cf2d766
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=1d977b43-69a5-411c-8d92-7be26cf2d766,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### A17. KPI for Kaveri Agro Machinery
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerKPI(dealerId=1d977b43-69a5-411c-8d92-7be26cf2d766,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### A18. Achievement for Godavari Farm Equipments
+
+### ID:
+
+### e0c669d7-9d99-43ce-aecb-5f8cf845c22e
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=e0c669d7-9d99-43ce-aecb-5f8cf845c22e,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### A19. KPI for Godavari Farm Equipments
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerKPI(dealerId=e0c669d7-9d99-43ce-aecb-5f8cf845c22e,month=3,year=2025)
+
+### =========================================================
+
+### PRICING SERVICE
+
+### =========================================================
+
+### Base URL
+
+### http://localhost:4004/pricing
+
+### ---------------------------------------------------------
+
+### P1. GET all Products
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Products
+
+### ---------------------------------------------------------
+
+### P2. GET all Price Master records
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster
+
+### ---------------------------------------------------------
+
+### P3. GET all Regions
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Regions
+
+### ---------------------------------------------------------
+
+### P4. GET all Price History
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceHistory
+
+### ---------------------------------------------------------
+
+### P5. GET all Price Expiry Logs
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceExpiryLog
+
+### ---------------------------------------------------------
+
+### P6. GET active Products
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Products?$filter=active eq true
+
+### ---------------------------------------------------------
+
+### P7. GET inactive Products
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Products?$filter=active eq false
+
+### ---------------------------------------------------------
+
+### P8. GET active Price Master records
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster?$filter=status eq 'ACTIVE'
+
+### ---------------------------------------------------------
+
+### P9. GET expired Price Master records
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster?$filter=status eq 'EXPIRED'
+
+### ---------------------------------------------------------
+
+### P10. GET Price Master by status
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster?$select=ID,basePrice,discount,tax,finalPrice,status,validFrom,validTo
+
+### ---------------------------------------------------------
+
+### P11. GET Products by category
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Products?$filter=category eq 'TRACTOR'
+
+### ---------------------------------------------------------
+
+### P12. GET Regions
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Regions?$select=ID,regionCode,regionName
+
+### ---------------------------------------------------------
+
+### P13. GET active prices ordered by finalPrice
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster?$filter=status eq 'ACTIVE'&$orderby=finalPrice asc
+
+### ---------------------------------------------------------
+
+### P14. GET Price Master with Product and Region
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceMaster?$expand=product,region
+
+### ---------------------------------------------------------
+
+### P15. Get Active Price Count
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/getActivePriceCount()
+
+### ---------------------------------------------------------
+
+### P16. Recalculate Final Price
+
+### IMPORTANT:
+
+### Replace PRICE_MASTER_ID with a real PriceMaster ID
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/pricing/recalculateFinalPrice
+Content-Type: application/json
+
+{
+"ID": "PRICE_MASTER_ID"
+}
+
+### ---------------------------------------------------------
+
+### P17. Recalculate Final Price - second test
+
+### Replace with another real PriceMaster ID
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/pricing/recalculateFinalPrice
+Content-Type: application/json
+
+{
+"ID": "PRICE_MASTER_ID"
+}
+
+### ---------------------------------------------------------
+
+### P18. Expire all prices
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/pricing/expirePrices
+Content-Type: application/json
+
+{}
+
+### ---------------------------------------------------------
+
+### P19. GET Price Expiry Logs after expiry
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceExpiryLog?$orderby=runOn desc
+
+### ---------------------------------------------------------
+
+### P20. GET Price History ordered by changedOn
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/PriceHistory?$orderby=changedOn desc
+
+### ---------------------------------------------------------
+
+### P21. GET Products with Price Master
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/pricing/Products?$expand=prices
+
+### =========================================================
+
+### PURCHASE ORDER SERVICE
+
+### =========================================================
+
+### Base URL
+
+### http://localhost:4004/odata/v4/purchase-order
+
+### ---------------------------------------------------------
+
+### PO1. GET all Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders
+
+### ---------------------------------------------------------
+
+### PO2. GET all PO Line Items
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/POLineItems
+
+### ---------------------------------------------------------
+
+### PO3. GET Products
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/Products
+
+### ---------------------------------------------------------
+
+### PO4. GET Regions
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/Regions
+
+### ---------------------------------------------------------
+
+### PO5. GET Price Master
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PriceMaster
+
+### ---------------------------------------------------------
+
+### PO6. GET Price History
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PriceHistory
+
+### ---------------------------------------------------------
+
+### PO7. GET Price Expiry Logs
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PriceExpiryLog
+
+### ---------------------------------------------------------
+
+### PO8. GET Draft Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=status eq 'DRAFT'
+
+### ---------------------------------------------------------
+
+### PO9. GET Submitted Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=status eq 'SUBMITTED'
+
+### ---------------------------------------------------------
+
+### PO10. GET Approved Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=status eq 'APPROVED'
+
+### ---------------------------------------------------------
+
+### PO11. GET Rejected Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=status eq 'REJECTED'
+
+### ---------------------------------------------------------
+
+### PO12. GET Purchase Orders for Sri Balaji Tractors
+
+### Dealer ID:
+
+### 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=dealer_ID eq 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+### ---------------------------------------------------------
+
+### PO13. GET Purchase Orders for Kaveri Agro Machinery
+
+### Dealer ID:
+
+### 1d977b43-69a5-411c-8d92-7be26cf2d766
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$filter=dealer_ID eq 1d977b43-69a5-411c-8d92-7be26cf2d766
+
+### ---------------------------------------------------------
+
+### PO14. GET Purchase Orders with Items
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$expand=items
+
+### ---------------------------------------------------------
+
+### PO15. GET Purchase Order with Dealer and Items
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$expand=dealer,items
+
+### ---------------------------------------------------------
+
+### PO16. GET PO with selected fields
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$select=ID,poNumber,orderDate,totalAmount,taxAmount,status,dealer_ID
+
+### ---------------------------------------------------------
+
+### PO17. GET Purchase Orders ordered by orderDate
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$orderby=orderDate desc
+
+### ---------------------------------------------------------
+
+### PO18. GET top 10 Purchase Orders
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$top=10
+
+### ---------------------------------------------------------
+
+### PO19. GET Purchase Order count
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders?$count=true
+
+### =========================================================
+
+### PURCHASE ORDER ACTIONS
+
+### =========================================================
+
+###
+
+### IMPORTANT:
+
+### The Dealer IDs above are from your CSV.
+
+### PO action URLs require the actual PurchaseOrder ID.
+
+###
+
+### Get the IDs first using PO1.
+
+###
+
+### Then replace:
+
+### PURCHASE_ORDER_ID
+
+###
+
+### =========================================================
+
+### ---------------------------------------------------------
+
+### PO20. Submit Purchase Order
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders(PURCHASE_ORDER_ID)/submitPO
+Content-Type: application/json
+
+{}
+
+### ---------------------------------------------------------
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders(43f3cd61-8168-4057-bae8-8d15266bd583)/submitPO
+Content-Type: application/json
+
+{}
+### PO21. Approve Purchase Order
+GET http://localhost:4004/odata/v4/purchase-order/PurchaseOrders
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders(PURCHASE_ORDER_ID)/approvePO
+Content-Type: application/json
+
+{}
+
+### ---------------------------------------------------------
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders("275365bb-da6f-42d1-bc2e-1a5c3c1a1775")/submitPO
+Content-Type: application/json
+
+{}
+### PO22. Reject Purchase Order
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders(275365bb-da6f-42d1-bc2e-1a5c3c1a1775)/submitPO
+Content-Type: application/json
+
+{}
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/purchase-order/PurchaseOrders(PURCHASE_ORDER_ID)/rejectPO
+Content-Type: application/json
+
+{
+"reason": "Price mismatch with approved dealer pricing"
+}
+
+### ---------------------------------------------------------
+
+### PO23. Expire individual Price Master
+
+### ---------------------------------------------------------
+
+###
+
+### Replace PRICE_MASTER_ID with actual ID.
+
+###
+
+POST http://localhost:4004/odata/v4/purchase-order/PriceMaster(PRICE_MASTER_ID)/expirePrice
+Content-Type: application/json
+
+{}
+
+### ---------------------------------------------------------
+
+### PO24. Run complete Price Expiry Check
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/odata/v4/purchase-order/runPriceExpiryCheck
+Content-Type: application/json
+
+{}
+
+### =========================================================
+
+### NEGATIVE TEST CASES
+
+### =========================================================
+
+### ---------------------------------------------------------
+
+### N1. Invalid Dealer ID
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers(00000000-0000-0000-0000-000000000000)
+
+### ---------------------------------------------------------
+
+### N2. Invalid Dealer Status
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'INVALID'
+
+### ---------------------------------------------------------
+
+### N3. Invalid Analytics Dealer ID
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=00000000-0000-0000-0000-000000000000,month=3,year=2025)
+
+### ---------------------------------------------------------
+
+### N4. Invalid Month
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=15,year=2025)
+
+### ---------------------------------------------------------
+
+### N5. Invalid Year
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/analytics/getDealerAchievement(dealerId=6ee050d1-8498-4eda-9e45-2a3644227c14,month=3,year=1900)
+
+### ---------------------------------------------------------
+
+### N6. Invalid Pricing ID
+
+### ---------------------------------------------------------
+
+POST http://localhost:4004/pricing/recalculateFinalPrice
+Content-Type: application/json
+
+{
+"ID": "00000000-0000-0000-0000-000000000000"
+}
+
+### =========================================================
+
+### ODATA QUERY SCENARIOS
+
+### =========================================================
+
+### ---------------------------------------------------------
+
+### Q1. Filter + Select
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'&$select=ID,dealerCode,dealerName,status
+
+### ---------------------------------------------------------
+
+### Q2. Filter + OrderBy
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'&$orderby=dealerName asc
+
+### ---------------------------------------------------------
+
+### Q3. Filter + Top
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE'&$top=3
+
+### ---------------------------------------------------------
+
+### Q4. Search dealer by name
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=contains(dealerName,'Agro')
+
+### ---------------------------------------------------------
+
+### Q5. Search dealer by city
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=contains(city,'Mys')
+
+### ---------------------------------------------------------
+
+### Q6. Active distributors
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE' and dealerType eq 'DISTRIBUTOR'
+
+### ---------------------------------------------------------
+
+### Q7. Active dealers in Karnataka
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE' and state eq 'Karnataka'
+
+### ---------------------------------------------------------
+
+### Q8. Active dealers in Tamil Nadu
+
+### ---------------------------------------------------------
+
+GET http://localhost:4004/odata/v4/dealer/Dealers?$filter=status eq 'ACTIVE' and state eq 'Tamil Nadu'
+
+### =========================================================
+
+### REAL DEALER IDS FROM YOUR CSV
+
+### =========================================================
+
+###
+
+### DLR1000 - Sri Balaji Tractors
+
+### 6ee050d1-8498-4eda-9e45-2a3644227c14
+
+###
+
+### DLR1001 - Kaveri Agro Machinery
+
+### 1d977b43-69a5-411c-8d92-7be26cf2d766
+
+###
+
+### DLR1002 - Godavari Farm Equipments
+
+### e0c669d7-9d99-43ce-aecb-5f8cf845c22e
+
+###
+
+### DLR1003 - Malwa Tractors & Implements
+
+### 9029a2f7-0b5f-47d9-b310-6e6a0575679f
+
+###
+
+### DLR1004 - Punjab Agri Sales Corp
+
+### af5b77dd-7398-4fe0-9057-471c9d943e83
+
+###
+
+### DLR1005 - Vidarbha Krishi Yantra
+
+### 62b2325b-6eeb-45e3-8a03-6ff8588f5296
+
+###
+
+### DLR1006 - Ganga Tractor House
+
+### 43f3cd61-8168-4057-bae8-8d15266bd583
+
+###
+
+### DLR1007 - Nilgiris Farm Solutions
+
+### 8c716521-1524-4dd8-a1e9-8e0a3622a80c
+
+###
+
+### DLR1008 - Saurashtra Agro Traders
+
+### 6fe0d9f9-3bca-4a12-acca-4c914a133cbe
+
+###
+
+### DLR1009 - Bundelkhand Agri Machines
+
+### b3e5c662-c4df-46ae-8a56-ec367c878dce
+
+###
+
+### DLR1010 - Konkan Tractor Point
+
+### 133ec1d1-2b3e-4b18-b552-2b17bf3b8b57
+
+###
+
+### DLR1011 - Malabar Farm Traders
+
+### 7545696f-12e4-4f10-9a21-dde3dc7c2728
+
+###
+
+### DLR1012 - Rayalaseema Agri Corp
+
+### 30953364-6d4d-4606-8c20-64bd6f802dcb
+
+###
+
+### DLR1013 - Doaba Krishi Kendra
+
+### 5d6aa10b-9170-4cb9-9014-0b773f1d0fad
+
+###
+
+### DLR1014 - Kutch Agro Enterprises
+
+### e4acf6f0-2151-427a-aaa4-ec1744d45b0d
+
+###
+
+### =========================================================
+
+### END OF TEST.HTTP
+
+### =========================================================
