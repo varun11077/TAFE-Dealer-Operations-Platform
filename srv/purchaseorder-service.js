@@ -453,16 +453,16 @@ module.exports = cds.service.impl(async function () {
             // Authorization
             // ----------------------------------------------------
 
-            if (
-                !req.user.is("PurchaseManager") &&
-                !req.user.is("Admin")
-            ) {
+            // if (
+            //     !req.user.is("PurchaseManager") &&
+            //     !req.user.is("Admin")
+            // ) {
 
-                return req.reject(
-                    403,
-                    "You are not authorized to approve purchase orders."
-                );
-            }
+            //     return req.reject(
+            //         403,
+            //         "You are not authorized to approve purchase orders."
+            //     );
+            // }
 
 
             const po =
@@ -534,16 +534,16 @@ module.exports = cds.service.impl(async function () {
             // Authorization
             // ----------------------------------------------------
 
-            if (
-                !req.user.is("PurchaseManager") &&
-                !req.user.is("Admin")
-            ) {
+            // if (
+            //     !req.user.is("PurchaseManager") &&
+            //     !req.user.is("Admin")
+            // ) {
 
-                return req.reject(
-                    403,
-                    "You are not authorized to reject purchase orders."
-                );
-            }
+            //     return req.reject(
+            //         403,
+            //         "You are not authorized to reject purchase orders."
+            //     );
+            // }
 
 
             // ----------------------------------------------------
