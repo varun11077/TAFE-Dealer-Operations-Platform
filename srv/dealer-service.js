@@ -1,12 +1,10 @@
 const cds = require("@sap/cds");
 
-const { Dealer } = cds.entities("tafe.dealer");
+const { Dealer, PurchaseOrders, POLineItems, Products } = cds.entities("tafe.dealer");
 
 module.exports = cds.service.impl(async function () {
 
-    // ============================================================
-    // CREATE DEALER
-    // ============================================================
+    
 
     this.before("CREATE", "Dealers", async (req) => {
 
@@ -18,10 +16,6 @@ module.exports = cds.service.impl(async function () {
             email
         } = req.data;
 
-
-        // --------------------------------------------------------
-        // 1. Mandatory validation
-        // --------------------------------------------------------
 
         if (!dealerName || !dealerName.trim()) {
             return req.reject(
@@ -849,4 +843,5 @@ this.on("submitDealer", "Dealers", async (req) => {
         }
     );
 
-});
+
+})
