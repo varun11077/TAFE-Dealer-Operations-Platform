@@ -679,15 +679,15 @@ module.exports = cds.service.impl(async function () {
 
         // Authorization
 
-        if (
-            !req.user.is("DealerManager") &&
-            !req.user.is("Admin")
-        ) {
-            return req.reject(
-                403,
-                "You are not authorized to reject dealers."
-            );
-        }
+        // if (
+        //     !req.user.is("DealerManager") &&
+        //     !req.user.is("Admin")
+        // ) {
+        //     return req.reject(
+        //         403,
+        //         "You are not authorized to reject dealers."
+        //     );
+        // }
 
 
         // Reason validation
@@ -855,13 +855,13 @@ module.exports = cds.service.impl(async function () {
 
     // DELETE DEALER
 
-    this.before("DELETE", "Dealers", async (req) => {
+    // this.before("DELETE", "Dealers", async (req) => {
 
-        return req.reject(
-            405,
-            "Dealer deletion is not allowed. Use business status actions."
-        );
+    //     return req.reject(
+    //         405,
+    //         "Dealer deletion is not allowed. Use business status actions."
+    //     );
 
-    });
+    // });
 
 });

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "@cap-js/hana": "^2.8.1",
+    "@sap-cloud-sdk/connectivity": "^4.9.1",
+    "@sap-cloud-sdk/http-client": "^4.9.1",
     "@sap/cds": "^9"
   },
   "devDependencies": {
@@ -14,7 +16,10 @@
   },
   "cds": {
     "requires": {
-      "auth": "mocked"
+      "auth": "mocked",
+      "credentials": {
+        "destination": "purchasebpi"
+      }
     },
     "server": {
       "index": true
