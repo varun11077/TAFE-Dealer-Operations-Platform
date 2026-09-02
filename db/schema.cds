@@ -129,7 +129,13 @@ entity PurchaseOrders : cuid, managed {
 
     taxAmount : Decimal(15,2) default 0;
 
-    status : String(20) default 'DRAFT';
+    status : String enum{
+            APPROVED;
+            PENDING;
+            DELIVERED;
+            SUBMITTED;
+            REJECT
+    } ;
 
     rejectionReason : String(255);
 
