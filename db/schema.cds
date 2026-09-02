@@ -254,6 +254,7 @@ entity PriceExpiryLog : cuid {
 }
 
 
+
 entity DealerTargets : cuid {
     targetMonth  : Integer;
     targetYear   : Integer;
