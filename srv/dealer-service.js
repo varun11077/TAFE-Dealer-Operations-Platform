@@ -468,18 +468,18 @@ module.exports = cds.service.impl(async function () {
 
         // Check mandatory documents
 
-        const documents = await SELECT
-            .from(DealerDocuments)
-            .where({
-                dealer_ID: dealerId
-            });
+        // const documents = await SELECT
+        //     .from(DealerDocuments)
+        //     .where({
+        //         dealer_ID: dealerId
+        //     });
 
-        if (!documents || documents.length === 0) {
-            return req.reject(
-                400,
-                "At least one dealer document is required before submission."
-            );
-        }
+        // if (!documents || documents.length === 0) {
+        //     return req.reject(
+        //         400,
+        //         "At least one dealer document is required before submission."
+        //     );
+        // }
 
 
         // Change status
