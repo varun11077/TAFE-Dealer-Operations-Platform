@@ -509,7 +509,7 @@ module.exports = cds.service.impl(async function () {
             // Status validation
             // ----------------------------------------------------
 
-            if (po.status === "PENDING") {
+            if (po.status !== "PENDING") {
 
                 return req.reject(
                     400,
