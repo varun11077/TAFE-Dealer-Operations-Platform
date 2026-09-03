@@ -82,9 +82,9 @@ module.exports = cds.service.impl(async function () {
             req.data.orderDate ||
             new Date().toISOString().slice(0, 10);
  
-        req.data.status = "DRAFT";
-        req.data.totalAmount = 0;
-        req.data.taxAmount = 0;
+        // req.data.status = "PENDING";
+        // req.data.totalAmount = 0;
+        // req.data.taxAmount = 0;
  
     });
 
