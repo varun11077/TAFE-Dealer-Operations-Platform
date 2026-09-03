@@ -40,69 +40,52 @@ module.exports = cds.service.impl(async function () {
     // CREATE PURCHASE ORDER
     // ============================================================
 
-    this.before("CREATE", "PurchaseOrders", async (req) => {
-
+     this.before("CREATE", "PurchaseOrders", async (req) => {
+ 
         const {
             dealer_ID
         } = req.data;
-
-
-        // ----------------------------------------------------
+       
         // 1. Mandatory validation
-        // ----------------------------------------------------
-
+ 
         if (!dealer_ID) {
-
             return req.reject(
                 400,
                 "Dealer is mandatory to create a Purchase Order."
             );
         }
-
-
-        // ----------------------------------------------------
+ 
         // 2. Dealer existence & status check
-        // ----------------------------------------------------
-
         const dealer =
             await SELECT.one
                 .from(Dealer)
                 .where({
                     ID: dealer_ID
                 });
-
-
+ 
         if (!dealer) {
-
             return req.reject(
                 404,
                 `Dealer ${dealer_ID} does not exist.`
             );
         }
-
-
+ 
         if (dealer.status !== "ACTIVE") {
-
             return req.reject(
                 400,
                 `Dealer ${dealer.dealerCode} is not active. Purchase Orders can only be raised for active dealers.`
             );
         }
-
-
-        // ----------------------------------------------------
+ 
         // 3. Defaults
-        // ----------------------------------------------------
-
         req.data.orderDate =
             req.data.orderDate ||
             new Date().toISOString().slice(0, 10);
-
-        req.data.status = "PENDING";
-
+ 
+        req.data.status = "DRAFT";
         req.data.totalAmount = 0;
-
         req.data.taxAmount = 0;
+ 
     });
 
 
@@ -111,78 +94,30 @@ module.exports = cds.service.impl(async function () {
     // ============================================================
 
     this.before("CREATE", "PurchaseOrders", async (req) => {
-
-        /*
-         * Production / HANA:
-         *
-         * HANA sequence:
-         * TAFE_PO_NUMBER_SEQ
-         *
-         * 1 -> PO00001
-         * 2 -> PO00002
-         *
-         * Local development:
-         * SQLite does not support HANA's DUMMY table or NEXTVAL.
-         * Therefore, generate the next number from existing POs.
-         */
-
-
-        if (cds.db.kind === "hana") {
-
-            // ----------------------------------------------------
-            // HANA
-            // ----------------------------------------------------
-
-            const result =
-                await cds.db.run(`
-                    SELECT "TAFE_PO_NUMBER_SEQ".NEXTVAL AS "NEXT_VALUE"
-                    FROM DUMMY
-                `);
-
-
-            const nextValue =
-                result[0].NEXT_VALUE;
-
-
-            req.data.poNumber =
-                `PO${String(nextValue).padStart(5, "0")}`;
-
-        } else {
-
-            // ----------------------------------------------------
-            // SQLite - Local Development
-            // ----------------------------------------------------
-
-            const result =
-                await SELECT.one
-                    .from(PurchaseOrders)
-                    .columns("poNumber")
-                    .orderBy("poNumber desc");
-
-
-            let nextValue = 1;
-
-
-            if (result && result.poNumber) {
-
-                const currentNumber =
-                    parseInt(
-                        result.poNumber.replace("PO", ""),
-                        10
-                    );
-
-
-                if (!isNaN(currentNumber)) {
-
-                    nextValue =
-                        currentNumber + 1;
-                }
+ 
+        const result =
+            await SELECT.one
+                .from(PurchaseOrders)
+                .columns("poNumber")
+                .orderBy("poNumber desc");
+ 
+        let nextValue = 1;
+ 
+        if (result && result.poNumber) {
+ 
+            const currentNumber =
+                parseInt(
+                    result.poNumber.replace("PO", ""),
+                    10
+                );
+ 
+            if (!isNaN(currentNumber)) {
+                nextValue = currentNumber + 1;
             }
-
-
-            req.data.poNumber =
-                `PO${String(nextValue).padStart(5, "0")}`;
         }
+ 
+        req.data.poNumber =
+            `PO${String(nextValue).padStart(5, "0")}`;
     });
 
 
