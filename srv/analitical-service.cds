@@ -1,34 +1,44 @@
 using { tafe.dealer as db } from '../db/schema';
 
+//@path: '/odata/v4/analytics'
 service AnalyticsService {
-    
-   // entity Dealers as projection on db.Dealer;
-    
-    entity DealerTargets as projection on db.DealerTargets;
-    
-    entity SalesAchievements as projection on db.SalesAchievements;
 
-    entity DealerKPIs as projection on db.DealerKPIs;
+    /* =====================================================
+       ANALYTICS ENTITIES
+       ===================================================== */
 
-    function getDealerAchievement(
-        dealerId : UUID,
-        month    : Integer,
-        year     : Integer
-    ) returns {
-        dealerId         : UUID;
-        targetAmount     : Decimal(15,2);
-        actualAmount     : Decimal(15,2);
-        achievementPercentage : Decimal(5,2);
-    };
+    entity DealerAnalytics
+        as projection on db.DealerAnalytics;
 
-    
-    function getDealerKPI(
-        dealerId : UUID,
-        month    : Integer,
-        year     : Integer
-    ) returns {
-        dealerId               : UUID;
-        achievementPercentage  : Decimal(5,2);
-        performanceScore       : Decimal(5,2);
-    };
+    entity PurchaseOrderAnalytics
+        as projection on db.PurchaseOrderAnalytics;
+
+    entity ProductSalesAnalytics
+        as projection on db.ProductSalesAnalytics;
+
+    entity PricingAnalytics
+        as projection on db.PricingAnalytics;
+
+    entity MonthlyAnalytics
+        as projection on db.MonthlyAnalytics;
+
+
+    /* =====================================================
+       ACTIONS
+       ===================================================== */
+
+    action calculateAnalytics(
+        month : Integer,
+        year  : Integer
+    ) returns String;
+
+
+    action calculateCurrentMonthAnalytics()
+        returns String;
+
+
+    action clearAnalytics(
+        month : Integer,
+        year  : Integer
+    ) returns String;
 }
