@@ -94,31 +94,47 @@ module.exports = cds.service.impl(async function () {
     // ============================================================
 
     this.before("CREATE", "PurchaseOrders", async (req) => {
- 
-        const result =
-            await SELECT.one
-                .from(PurchaseOrders)
-                .columns("poNumber")
-                .orderBy("poNumber desc");
- 
-        let nextValue = 1;
- 
-        if (result && result.poNumber) {
- 
+
+    const aPOs =
+        await SELECT
+            .columns("poNumber")
+            .from(PurchaseOrders);
+
+    let maxNumber = 0;
+
+    aPOs.forEach((oPO) => {
+
+        if (!oPO.poNumber) {
+            return;
+        }
+
+        const match =
+            String(oPO.poNumber)
+                .match(/(\d+)$/);
+
+        if (match) {
+
             const currentNumber =
-                parseInt(
-                    result.poNumber.replace("PO", ""),
-                    10
-                );
- 
-            if (!isNaN(currentNumber)) {
-                nextValue = currentNumber + 1;
+                parseInt(match[1], 10);
+
+            if (
+                !isNaN(currentNumber) &&
+                currentNumber > maxNumber
+            ) {
+                maxNumber = currentNumber;
             }
         }
- 
-        req.data.poNumber =
-            `PO${String(nextValue).padStart(5, "0")}`;
     });
+
+    const nextValue =
+        maxNumber + 1;
+
+    const year =
+        new Date().getFullYear();
+
+    req.data.poNumber =
+        `PO-${year}-${nextValue}`;
+});
 
 
     // ============================================================

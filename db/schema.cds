@@ -385,3 +385,57 @@ entity MonthlyAnalytics : cuid, managed {
 
     salesGrowthPercentage : Decimal(5,2) default 0;
 }
+type InventoryStatus : String enum {
+    AVAILABLE;
+    LOW_STOCK;
+    OUT_OF_STOCK;
+    RESERVED;
+    INACTIVE;
+}
+
+/* =========================================================
+   WAREHOUSES
+   ========================================================= */
+
+entity Warehouses : cuid, managed {
+ @assert.unique: { warehouseCode: [warehouseCode] }
+    warehouseCode : String(20) ;
+
+    warehouseName : String(100) @mandatory;
+
+    address : String(250);
+
+    city : String(50);
+
+    state : String(50);
+
+    country : String(50);
+
+    active : Boolean default true;
+
+    inventory : Association to many Inventory
+        on inventory.warehouse = $self;
+}
+
+/* =========================================================
+   INVENTORY / STOCK
+   ========================================================= */
+
+entity Inventory : cuid, managed {
+
+    product : Association to Products @mandatory;
+
+    warehouse : Association to Warehouses @mandatory;
+
+    availableQuantity : Integer default 0;
+
+    reservedQuantity : Integer default 0;
+
+    reorderLevel : Integer default 0;
+
+    status : InventoryStatus default 'AVAILABLE';
+
+    lastStockUpdate : DateTime;
+
+    remarks : String(250);
+}
