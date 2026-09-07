@@ -183,6 +183,8 @@ entity Products : cuid, managed {
     
     pricingAnalytics : Association to many PricingAnalytics
         on pricingAnalytics.product = $self;
+    inventory : Association to many Inventory
+        on inventory.product = $self;
 }
 
 

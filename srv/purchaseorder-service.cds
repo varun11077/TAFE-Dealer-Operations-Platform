@@ -31,6 +31,9 @@ service PurchaseOrderService {
  
     entity PriceExpiryLog as projection on db.PriceExpiryLog;
 
+    entity Inventory as projection on db.Inventory;
+
     // Batch job - expires all PriceMaster records whose validTo has passed
     action runPriceExpiryCheck() returns String;
+
 }

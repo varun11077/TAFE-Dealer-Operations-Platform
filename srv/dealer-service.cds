@@ -26,5 +26,6 @@ entity Products as projection on db.Products;
 
 
 entity OnboardingApprovals as projection on db.OnboardingApprovals;
+ function getCititesByState(state:String) returns array of String;
 
 }

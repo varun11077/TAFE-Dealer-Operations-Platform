@@ -853,6 +853,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
+
     // DELETE DEALER
 
     // this.before("DELETE", "Dealers", async (req) => {
@@ -863,5 +864,59 @@ module.exports = cds.service.impl(async function () {
     //     );
 
     // });
+      this.on("getCitiesByState", async (req) => {
+ 
+        const { state } = req.data;
+ 
+        if (!state || !state.trim()) {
+            return req.reject(400, "State is required.");
+        }
+ 
+        try {
+ 
+            const response = await executeHttpRequest(
+                { destinationName: "CityAPI" },
+                {
+                    method: "POST",
+                    url: "/countries/state/cities",
+                    data: {
+                        country: "India",
+                        state: state.trim()
+                    },
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+ 
+            const bError =
+                response.data && response.data.error;
+ 
+            if (bError) {
+                return req.reject(
+                    502,
+                    response.data.msg ||
+                        "External city service returned an error."
+                );
+            }
+ 
+            const aCities =
+                (response.data && response.data.data) || [];
+ 
+            return aCities;
+ 
+        } catch (oError) {
+ 
+            console.error(
+                "getCitiesByState - CityAPI error:",
+                oError.message
+            );
+ 
+            return req.reject(
+                502,
+                "Unable to fetch cities from external service."
+            );
+        }
+    });
 
 });
