@@ -1207,4 +1207,54 @@ module.exports = cds.service.impl(async function () {
         }
     );
 
+      this.on('READ', 'Regions', async (req) => {
+
+        const regions = await SELECT.from('Regions');
+
+        const dealers = await SELECT.from('Dealer');
+
+        const purchaseOrders = await SELECT.from('PurchaseOrders');
+
+        const dealerRegionMap = {};
+
+        dealers.forEach(dealer => {
+
+            dealerRegionMap[dealer.ID] = dealer.region_ID;
+
+        });
+
+        const regionTotals = {};
+
+        purchaseOrders.forEach(po => {
+
+            const dealerID = po.dealer_ID;
+
+            const regionID = dealerRegionMap[dealerID];
+
+            if (!regionID) {
+                return;
+            }
+
+            if (!regionTotals[regionID]) {
+                regionTotals[regionID] = 0;
+            }
+
+            // Add PO totalAmount
+            regionTotals[regionID] += Number(po.totalAmount || 0);
+
+        });
+
+
+        regions.forEach(region => {
+
+            region.totalPurchaseValue =
+                regionTotals[region.ID] || 0;
+
+        });
+
+
+        return regions;
+    });
+
+
 });

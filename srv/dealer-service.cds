@@ -3,8 +3,9 @@ using {tafe.dealer as db} from '../db/schema';
 service DealerService {
 
 
-entity Dealers as projection on db.Dealer
-    actions {
+entity Dealers as projection on db.Dealer {
+    *
+   } actions {
 
         action submitDealer() returns String;
 
@@ -19,6 +20,7 @@ entity Dealers as projection on db.Dealer
             remarks: String(500)
         ) returns String;
     };
+entity Regions as projection on db.Regions;
 
 entity DealerDocuments as projection on db.DealerDocuments;
 

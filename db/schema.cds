@@ -52,6 +52,8 @@ entity Dealer : cuid, managed {
     city : String(50);
 
     state : String(50);
+    
+    region : Association to Regions;
 
     country : String(50);
 
@@ -197,6 +199,10 @@ entity Regions : cuid {
     regionCode : String(10) @mandatory;
 
     regionName : String(50) @mandatory;
+
+    dealers : Association to many Dealer on dealers.region = $self; 
+
+    totalPurchaseValue : Integer;
 }
 
 
