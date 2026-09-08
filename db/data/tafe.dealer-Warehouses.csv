@@ -2,3 +2,5 @@ ID,warehouseCode,warehouseName,address,city,state,country,active,createdAt,creat
 a1000001-0000-0000-0000-000000000001,WH-BLR,TAFE Bangalore Warehouse,Industrial Area Peenya,Bengaluru,Karnataka,India,true,2024-01-05T09:00:00Z,onboarding.srv@tafe.com,2024-02-05T09:00:00Z,onboarding.srv@tafe.com
 a1000001-0000-0000-0000-000000000002,WH-CHN,TAFE Chennai Warehouse,Ambattur Industrial Estate,Chennai,Tamil Nadu,India,true,2024-01-06T09:00:00Z,onboarding.srv@tafe.com,2024-02-06T09:00:00Z,onboarding.srv@tafe.com
 a1000001-0000-0000-0000-000000000003,WH-HYD,TAFE Hyderabad Warehouse,Balanagar Industrial Area,Hyderabad,Telangana,India,true,2024-01-07T09:00:00Z,onboarding.srv@tafe.com,2024-02-07T09:00:00Z,onboarding.srv@tafe.com
+a1000001-0000-0000-0000-000000000004,WH-NEL,TAFE Nellore Warehouse,Industrial Estate Autonagar,Nellore,Andhra Pradesh,India,true,2024-01-08T09:00:00Z,onboarding.srv@tafe.com,2024-02-08T09:00:00Z,onboarding.srv@tafe.com
+a1000001-0000-0000-0000-000000000005,WH-VIZ,TAFE Vizag Warehouse,Auto Nagar Industrial Area,Visakhapatnam,Andhra Pradesh,India,true,2024-01-09T09:00:00Z,onboarding.srv@tafe.com,2024-02-09T09:00:00Z,onboarding.srv@tafe.com

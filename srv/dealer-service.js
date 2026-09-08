@@ -1,4 +1,5 @@
 const cds = require("@sap/cds");
+const { executeHttpRequest } = require("@sap-cloud-sdk/http-client");
 
 const { SELECT, UPDATE, INSERT } = cds.ql;
 
@@ -907,15 +908,22 @@ module.exports = cds.service.impl(async function () {
  
         } catch (oError) {
  
-            console.error(
-                "getCitiesByState - CityAPI error:",
-                oError.message
-            );
- 
-            return req.reject(
-                502,
-                "Unable to fetch cities from external service."
-            );
+           console.error("========== CityAPI ERROR ==========");
+    console.error("Message:", oError.message);
+    console.error("Status:", oError.response?.status);
+    console.error("Status Text:", oError.response?.statusText);
+    console.error("Response Data:", oError.response?.data);
+    console.error("Response Headers:", oError.response?.headers);
+    console.error("Stack:", oError.stack);
+    console.error("===================================");
+
+    return req.reject(
+        502,
+        oError.response?.data?.msg ||
+        oError.response?.data?.message ||
+        oError.message ||
+        "Unable to fetch cities from external service."
+    );
         }
     });
 

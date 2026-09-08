@@ -158,6 +158,8 @@ entity POLineItems : cuid {
     product : Association to Products;
 
     purchaseOrder : Association to PurchaseOrders;
+
+    warehouse : Association to Warehouses ;
 }
 
 
@@ -167,11 +169,12 @@ entity POLineItems : cuid {
 
 entity Products : cuid, managed {
 
-    productCode : String(20) @mandatory;
+    @assert.unique: { productCode: [productCode] }
+    productCode : String(20) ;
 
     productName : String(100) @mandatory;
 
-    category : String(50);
+    category : Association to Categories @mandatory;
 
     active : Boolean default true;
 
@@ -187,6 +190,7 @@ entity Products : cuid, managed {
         on pricingAnalytics.product = $self;
     inventory : Association to many Inventory
         on inventory.product = $self;
+        
 }
 
 
@@ -430,6 +434,12 @@ entity Warehouses : cuid, managed {
    ========================================================= */
 
 entity Inventory : cuid, managed {
+    @assert.unique: {
+        productWarehouse: [
+            product,
+            warehouse
+        ]
+    }
 
     product : Association to Products @mandatory;
 
@@ -446,4 +456,20 @@ entity Inventory : cuid, managed {
     lastStockUpdate : DateTime;
 
     remarks : String(250);
+}
+
+
+entity Categories : cuid, managed {
+
+    @assert.unique: {
+        categoryName: [categoryName]
+    }
+    categoryName : String(100) @mandatory;
+
+    description : String(250);
+
+    active : Boolean default true;
+
+    products : Association to many Products
+        on products.category = $self;
 }

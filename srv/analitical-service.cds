@@ -41,4 +41,7 @@ service AnalyticsService {
         month : Integer,
         year  : Integer
     ) returns String;
+
+    entity Dealer as projection on db.Dealer;
+    entity Product as projection on db.Products;
 }

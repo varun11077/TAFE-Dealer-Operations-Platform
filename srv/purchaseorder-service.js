@@ -10,7 +10,9 @@ const {
     Regions,
     PriceMaster,
     PriceHistory,
-    PriceExpiryLog
+    PriceExpiryLog,
+    Inventory,
+    
 } = cds.entities("tafe.dealer");
 
 // ============================================================
@@ -30,6 +32,9 @@ const DESTINATION_NAME = "purchasebpi";
 
 module.exports = cds.service.impl(async function () {
 
+    const warehouses = this.entities.warehouse;
+    const products = this.entities.Products;
+    const categories = this.entities.Categories;
 
     // ============================================================
     // PURCHASE ORDER
@@ -1255,6 +1260,426 @@ module.exports = cds.service.impl(async function () {
 
         return regions;
     });
+this.before("CREATE", "warehouse", async (req) => {
+
+    if (!req.data.warehouseName) {
+        return req.reject(
+            400,
+            "Warehouse name is mandatory."
+        );
+    }
+
+    if (!req.data.city) {
+        return req.reject(
+            400,
+            "City is mandatory."
+        );
+    }
+
+    const sCity = req.data.city.trim();
+
+    const sCityCode =
+        sCity
+            .replace(/[^a-zA-Z]/g, "")
+            .substring(0, 3)
+            .toUpperCase();
+
+    if (!sCityCode) {
+        return req.reject(
+            400,
+            "Invalid city."
+        );
+    }
+
+    const aExisting =
+        await SELECT
+            .from(warehouses)
+            .columns("warehouseCode")
+            .where({
+                city: sCity
+            });
+
+    let iMaxNumber = 0;
+
+    aExisting.forEach((oWarehouse) => {
+
+        const oMatch =
+            String(oWarehouse.warehouseCode || "")
+                .match(/^WH-[A-Z]+-(\d+)$/);
+
+        if (oMatch) {
+            iMaxNumber = Math.max(
+                iMaxNumber,
+                parseInt(oMatch[1], 10)
+            );
+        }
+    });
+
+    const sNextNumber =
+        String(iMaxNumber + 1)
+            .padStart(3, "0");
+
+    req.data.warehouseCode =
+        `WH-${sCityCode}-${sNextNumber}`;
+
+    req.data.active = true;
+
+    console.log(
+        "Generated Warehouse Code:",
+        req.data.warehouseCode
+    );
+});
 
 
+    // ============================================================
+    // RESERVE STOCK
+    // ============================================================
+
+    this.on("reserveStock", async (req) => {
+
+        const {
+            productID,
+            warehouseID,
+            quantity
+        } = req.data;
+
+
+        if (!productID) {
+            return req.reject(
+                400,
+                "Product is mandatory."
+            );
+        }
+
+        if (!warehouseID) {
+            return req.reject(
+                400,
+                "Warehouse is mandatory."
+            );
+        }
+
+        if (!quantity || quantity <= 0) {
+            return req.reject(
+                400,
+                "Quantity must be greater than zero."
+            );
+        }
+
+
+        const stock =
+            await SELECT.one
+                .from(Inventory)
+                .where({
+                    product_ID: productID,
+                    warehouse_ID: warehouseID
+                });
+
+
+        if (!stock) {
+            return req.reject(
+                404,
+                "Inventory record not found."
+            );
+        }
+
+
+        if (stock.availableQuantity < quantity) {
+            return req.reject(
+                400,
+                `Insufficient stock. Available quantity: ${stock.availableQuantity}`
+            );
+        }
+
+
+        await UPDATE(Inventory)
+            .set({
+                availableQuantity:
+                    stock.availableQuantity - quantity,
+
+                reservedQuantity:
+                    (stock.reservedQuantity || 0) + quantity,
+
+                lastStockUpdate:
+                    new Date().toISOString()
+            })
+            .where({
+                ID: stock.ID
+            });
+
+
+        return "Stock reserved successfully.";
+    });
+
+
+    // ============================================================
+    // RELEASE STOCK
+    // ============================================================
+
+    this.on("releaseStock", async (req) => {
+
+        const {
+            productID,
+            warehouseID,
+            quantity
+        } = req.data;
+
+
+        if (!productID) {
+            return req.reject(
+                400,
+                "Product is mandatory."
+            );
+        }
+
+        if (!warehouseID) {
+            return req.reject(
+                400,
+                "Warehouse is mandatory."
+            );
+        }
+
+        if (!quantity || quantity <= 0) {
+            return req.reject(
+                400,
+                "Quantity must be greater than zero."
+            );
+        }
+
+
+        const stock =
+            await SELECT.one
+                .from(Inventory)
+                .where({
+                    product_ID: productID,
+                    warehouse_ID: warehouseID
+                });
+
+
+        if (!stock) {
+            return req.reject(
+                404,
+                "Inventory record not found."
+            );
+        }
+
+
+        if ((stock.reservedQuantity || 0) < quantity) {
+            return req.reject(
+                400,
+                "Release quantity exceeds reserved stock."
+            );
+        }
+
+
+        await UPDATE(Inventory)
+            .set({
+                availableQuantity:
+                    stock.availableQuantity + quantity,
+
+                reservedQuantity:
+                    (stock.reservedQuantity || 0) - quantity,
+
+                lastStockUpdate:
+                    new Date().toISOString()
+            })
+            .where({
+                ID: stock.ID
+            });
+
+
+        return "Stock released successfully.";
+    });
+
+
+    // ============================================================
+    // GET AVAILABLE STOCK
+    // ============================================================
+
+    this.on("getAvailableStock", async (req) => {
+
+        const {
+            productID,
+            warehouseID
+        } = req.data;
+
+
+        if (!productID) {
+            return req.reject(
+                400,
+                "Product is mandatory."
+            );
+        }
+
+        if (!warehouseID) {
+            return req.reject(
+                400,
+                "Warehouse is mandatory."
+            );
+        }
+
+
+        const stock =
+            await SELECT.one
+                .from(Inventory)
+                .where({
+                    product_ID: productID,
+                    warehouse_ID: warehouseID
+                });
+
+
+        if (!stock) {
+            return 0;
+        }
+
+
+        return stock.availableQuantity || 0;
+    });
+
+    this.before("CREATE", "Products", async (req) => {
+
+    // Validate Product Name
+    if (!req.data.productName) {
+        return req.reject(400, "Product name is mandatory.");
+    }
+
+    // Validate Category
+    if (!req.data.category_ID) {
+        return req.reject(400, "Category is mandatory.");
+    }
+
+    // Validate Category exists and is active
+    const oCategory = await SELECT
+        .one
+        .from(categories)
+        .columns("ID", "categoryName", "active")
+        .where({
+            ID: req.data.category_ID
+        });
+
+    if (!oCategory) {
+        return req.reject(400, "Selected category does not exist.");
+    }
+
+    if (oCategory.active === false) {
+        return req.reject(400, "Selected category is inactive.");
+    }
+
+    // -----------------------------------------
+    // Generate Product Code from Product Name
+    // -----------------------------------------
+
+    const sProductName = String(req.data.productName)
+        .trim();
+
+    const aWords = sProductName
+        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .split(/\s+/)
+        .filter(Boolean);
+
+    if (aWords.length === 0) {
+        return req.reject(400, "Invalid product name.");
+    }
+
+    // Take first 2 characters of product name
+    const sPrefix = aWords[0]
+        .substring(0, 2)
+        .toUpperCase();
+
+    if (!sPrefix) {
+        return req.reject(400, "Unable to generate product code.");
+    }
+
+    // -----------------------------------------
+    // Find existing codes with same prefix
+    // -----------------------------------------
+
+    const aExistingProducts = await SELECT
+        .from(products)
+        .columns("productCode")
+        .where({
+            productCode: {
+                like: `${sPrefix}-%`
+            }
+        });
+
+    let iMaxNumber = 0;
+
+    for (const oProduct of aExistingProducts) {
+
+        const sCode = String(
+            oProduct.productCode || ""
+        );
+
+        const oMatch = sCode.match(
+            new RegExp(`^${sPrefix}-(\\d+)$`)
+        );
+
+        if (oMatch) {
+
+            const iNumber = parseInt(
+                oMatch[1],
+                10
+            );
+
+            if (iNumber > iMaxNumber) {
+                iMaxNumber = iNumber;
+            }
+        }
+    }
+
+    // -----------------------------------------
+    // Generate next number
+    // -----------------------------------------
+
+    const iNextNumber = iMaxNumber + 1;
+
+    const sNumber = String(iNextNumber)
+        .padStart(4, "0");
+
+    req.data.productCode =
+        `${sPrefix}-${sNumber}`;
+
+    // Always active when created
+    req.data.active = true;
+
+    console.log(
+        "Generated Product Code:",
+        req.data.productCode
+    );
+});
+this.before("CREATE", "Categories", async (req) => {
+
+        if (!req.data.categoryName) {
+            return req.reject(
+                400,
+                "Category name is mandatory."
+            );
+        }
+
+        req.data.categoryName =
+            String(req.data.categoryName).trim();
+
+        if (!req.data.categoryName) {
+            return req.reject(
+                400,
+                "Category name cannot be empty."
+            );
+        }
+
+        // Check duplicate category
+        const oExistingCategory = await SELECT.one
+            .from(categories)
+            .where({
+                categoryName: req.data.categoryName
+            });
+
+        if (oExistingCategory) {
+            return req.reject(
+                409,
+                `Category '${req.data.categoryName}' already exists.`
+            );
+        }
+
+        req.data.active = true;
+    });
 });
