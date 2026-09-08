@@ -927,4 +927,60 @@ module.exports = cds.service.impl(async function () {
         }
     });
 
+    this.on("geocodeAddress", async (req) => {
+ 
+        const { query } = req.data;
+ 
+        if (!query || !query.trim()) {
+            return req.reject(400, "Address query is required.");
+        }
+ 
+        try {
+ 
+            const response = await executeHttpRequest(
+                { destinationName: "GeocodeAPI" },
+                {
+                    method: "GET",
+                    url: "/search",
+                    params: {
+                        q: query.trim(),
+                        format: "json",
+                        limit: 1,
+                        countrycodes: "in"
+                    }
+                }
+            );
+ 
+            const aResults = response.data || [];
+ 
+            if (!aResults.length) {
+                return req.reject(404, "Address not found.");
+            }
+ 
+            const oResult = aResults[0];
+ 
+            return {
+                latitude: parseFloat(oResult.lat),
+                longitude: parseFloat(oResult.lon),
+                displayName: oResult.display_name
+            };
+ 
+        } catch (oError) {
+ 
+            console.error(
+                "geocodeAddress - GeocodeAPI error:",
+                oError.message
+            );
+ 
+            return req.reject(
+                502,
+                "Unable to geocode address."
+            );
+        }
+    });
+ 
+ 
+
+
+
 });

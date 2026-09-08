@@ -30,4 +30,12 @@ entity Products as projection on db.Products;
 entity OnboardingApprovals as projection on db.OnboardingApprovals;
  function getCitiesByState(state:String) returns array of String;
 
+   type GeocodeResult {
+        latitude    : Double;
+        longitude   : Double;
+        displayName : String;
+    }
+
+    function geocodeAddress(query: String) returns GeocodeResult;
+
 }

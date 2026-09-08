@@ -15,9 +15,6 @@ const {
     
 } = cds.entities("tafe.dealer");
 
-// ============================================================
-// BPA CONFIGURATION
-// ============================================================
 
 const WORKFLOW_DEFINITION_ID =
     process.env.WORKFLOW_DEFINITION_ID ||
@@ -26,9 +23,7 @@ const WORKFLOW_DEFINITION_ID =
 const DESTINATION_NAME = "purchasebpi";
 
 
-// ============================================================
-// SERVICE IMPLEMENTATION
-// ============================================================
+
 
 module.exports = cds.service.impl(async function () {
 
