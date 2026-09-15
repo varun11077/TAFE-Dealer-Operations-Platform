@@ -65,9 +65,6 @@ entity Dealer : cuid, managed {
     documents : Composition of many DealerDocuments
         on documents.dealer = $self;
 
-    analytics : Association to many DealerAnalytics
-        on analytics.dealer = $self;
-
 
     approvalHistory : Composition of many OnboardingApprovals
         on approvalHistory.dealer = $self;
@@ -178,11 +175,6 @@ entity Products : cuid, managed {
     prices : Association to many PriceMaster
         on prices.product = $self;
 
-    salesAnalytics : Association to many ProductSalesAnalytics
-        on salesAnalytics.product = $self;
-    
-    pricingAnalytics : Association to many PricingAnalytics
-        on pricingAnalytics.product = $self;
 }
 
 
@@ -261,127 +253,3 @@ entity PriceExpiryLog : cuid {
 }
 
 
-/* =========================================================
-   DEALER ANALYTICS
-   ========================================================= */
-
-entity DealerAnalytics : cuid, managed {
-
-    dealer : Association to Dealer @mandatory;
-
-    analyticsMonth : Integer @mandatory;
-
-    analyticsYear : Integer @mandatory;
-
-    totalPOCount : Integer default 0;
-
-    approvedPOCount : Integer default 0;
-
-    rejectedPOCount : Integer default 0;
-
-    deliveredPOCount : Integer default 0;
-
-    totalPurchaseValue : Decimal(15,2) default 0;
-
-    totalTaxAmount : Decimal(15,2) default 0;
-
-    averagePOValue : Decimal(15,2) default 0;
-}
-
-
-/* =========================================================
-   PURCHASE ORDER ANALYTICS
-   ========================================================= */
-
-entity PurchaseOrderAnalytics : cuid, managed {
-
-    analyticsMonth : Integer @mandatory;
-
-    analyticsYear : Integer @mandatory;
-
-    totalPOCount : Integer default 0;
-
-    approvedPOCount : Integer default 0;
-
-    rejectedPOCount : Integer default 0;
-
-    deliveredPOCount : Integer default 0;
-
-    totalPurchaseValue : Decimal(15,2) default 0;
-
-    totalTaxAmount : Decimal(15,2) default 0;
-
-    averagePOValue : Decimal(15,2) default 0;
-}
-
-
-/* =========================================================
-   PRODUCT SALES ANALYTICS
-   ========================================================= */
-
-entity ProductSalesAnalytics : cuid, managed {
-
-    product : Association to Products @mandatory;
-
-    analyticsMonth : Integer @mandatory;
-
-    analyticsYear : Integer @mandatory;
-
-    totalQuantity : Integer default 0;
-
-    totalPOCount : Integer default 0;
-
-    totalSalesValue : Decimal(15,2) default 0;
-
-    averageUnitPrice : Decimal(15,2) default 0;
-}
-
-
-/* =========================================================
-   PRICING ANALYTICS
-   ========================================================= */
-
-entity PricingAnalytics : cuid, managed {
-
-    product : Association to Products @mandatory;
-
-    analyticsMonth : Integer @mandatory;
-
-    analyticsYear : Integer @mandatory;
-
-    averageBasePrice : Decimal(15,2) default 0;
-
-    averageDiscount : Decimal(15,2) default 0;
-
-    averageFinalPrice : Decimal(15,2) default 0;
-
-    totalDiscountAmount : Decimal(15,2) default 0;
-
-    priceChangeCount : Integer default 0;
-}
-
-
-/* =========================================================
-   MONTHLY ANALYTICS
-   ========================================================= */
-
-entity MonthlyAnalytics : cuid, managed {
-
-    analyticsMonth : Integer @mandatory;
-
-    analyticsYear : Integer @mandatory;
-
-    totalPOCount : Integer default 0;
-
-    totalPurchaseValue : Decimal(15,2) default 0;
-
-    totalQuantity : Integer default 0;
-
-    totalDiscountAmount : Decimal(15,2) default 0;
-
-    totalTaxAmount : Decimal(15,2) default 0;
-
-    averagePOValue : Decimal(15,2) default 0;
-
-    salesGrowthPercentage : Decimal(5,2) default 0;
-}
