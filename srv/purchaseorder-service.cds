@@ -16,7 +16,7 @@ service PurchaseOrderService {
 
     entity Products as projection on db.Products;
 
-    entity Regions as projection on db.Regions;
+    entity Regions as projection on db.Regions; 
 
     entity Dealers as projection on db.Dealer;
     entity PriceMaster as projection on db.PriceMaster
@@ -31,6 +31,30 @@ service PurchaseOrderService {
  
     entity PriceExpiryLog as projection on db.PriceExpiryLog;
 
+    entity Inventory as projection on db.Inventory;
+
+    entity warehouse as projection on db.Warehouses;
+
+    entity Categories as projection on db.Categories;
+
     // Batch job - expires all PriceMaster records whose validTo has passed
     action runPriceExpiryCheck() returns String;
+
+     action reserveStock(
+        productID : UUID,
+        warehouseID : UUID,
+        quantity : Integer
+    ) returns String;
+
+    action releaseStock(
+        productID : UUID,
+        warehouseID : UUID,
+        quantity : Integer
+    ) returns String;
+
+    function getAvailableStock(
+        productID : UUID,
+        warehouseID : UUID
+    ) returns Integer;
+
 }

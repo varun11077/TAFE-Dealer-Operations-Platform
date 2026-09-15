@@ -52,6 +52,8 @@ entity Dealer : cuid, managed {
     city : String(50);
 
     state : String(50);
+    
+    region : Association to Regions;
 
     country : String(50);
 
@@ -153,6 +155,8 @@ entity POLineItems : cuid {
     product : Association to Products;
 
     purchaseOrder : Association to PurchaseOrders;
+
+    warehouse : Association to Warehouses ;
 }
 
 
@@ -162,11 +166,12 @@ entity POLineItems : cuid {
 
 entity Products : cuid, managed {
 
-    productCode : String(20) @mandatory;
+    @assert.unique: { productCode: [productCode] }
+    productCode : String(20) ;
 
     productName : String(100) @mandatory;
 
-    category : String(50);
+    category : Association to Categories @mandatory;
 
     active : Boolean default true;
 
@@ -187,6 +192,10 @@ entity Regions : cuid {
     regionCode : String(10) @mandatory;
 
     regionName : String(50) @mandatory;
+
+    dealers : Association to many Dealer on dealers.region = $self; 
+
+    totalPurchaseValue : Integer;
 }
 
 

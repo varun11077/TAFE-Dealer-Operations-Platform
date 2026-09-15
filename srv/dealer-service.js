@@ -1,4 +1,5 @@
 const cds = require("@sap/cds");
+const { executeHttpRequest } = require("@sap-cloud-sdk/http-client");
 
 const { SELECT, UPDATE, INSERT } = cds.ql;
 
@@ -853,6 +854,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
+
     // DELETE DEALER
 
     // this.before("DELETE", "Dealers", async (req) => {
@@ -863,5 +865,122 @@ module.exports = cds.service.impl(async function () {
     //     );
 
     // });
+      this.on("getCitiesByState", async (req) => {
+ 
+        const { state } = req.data;
+ 
+        if (!state || !state.trim()) {
+            return req.reject(400, "State is required.");
+        }
+ 
+        try {
+ 
+            const response = await executeHttpRequest(
+                { destinationName: "CityAPI" },
+                {
+                    method: "POST",
+                    url: "/countries/state/cities",
+                    data: {
+                        country: "India",
+                        state: state.trim()
+                    },
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+ 
+            const bError =
+                response.data && response.data.error;
+ 
+            if (bError) {
+                return req.reject(
+                    502,
+                    response.data.msg ||
+                        "External city service returned an error."
+                );
+            }
+ 
+            const aCities =
+                (response.data && response.data.data) || [];
+ 
+            return aCities;
+ 
+        } catch (oError) {
+ 
+           console.error("========== CityAPI ERROR ==========");
+    console.error("Message:", oError.message);
+    console.error("Status:", oError.response?.status);
+    console.error("Status Text:", oError.response?.statusText);
+    console.error("Response Data:", oError.response?.data);
+    console.error("Response Headers:", oError.response?.headers);
+    console.error("Stack:", oError.stack);
+    console.error("===================================");
+
+    return req.reject(
+        502,
+        oError.response?.data?.msg ||
+        oError.response?.data?.message ||
+        oError.message ||
+        "Unable to fetch cities from external service."
+    );
+        }
+    });
+
+    this.on("geocodeAddress", async (req) => {
+ 
+        const { query } = req.data;
+ 
+        if (!query || !query.trim()) {
+            return req.reject(400, "Address query is required.");
+        }
+ 
+        try {
+ 
+            const response = await executeHttpRequest(
+                { destinationName: "GeocodeAPI" },
+                {
+                    method: "GET",
+                    url: "/search",
+                    params: {
+                        q: query.trim(),
+                        format: "json",
+                        limit: 1,
+                        countrycodes: "in"
+                    }
+                }
+            );
+ 
+            const aResults = response.data || [];
+ 
+            if (!aResults.length) {
+                return req.reject(404, "Address not found.");
+            }
+ 
+            const oResult = aResults[0];
+ 
+            return {
+                latitude: parseFloat(oResult.lat),
+                longitude: parseFloat(oResult.lon),
+                displayName: oResult.display_name
+            };
+ 
+        } catch (oError) {
+ 
+            console.error(
+                "geocodeAddress - GeocodeAPI error:",
+                oError.message
+            );
+ 
+            return req.reject(
+                502,
+                "Unable to geocode address."
+            );
+        }
+    });
+ 
+ 
+
+
 
 });
